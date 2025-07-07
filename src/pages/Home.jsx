@@ -1,87 +1,64 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 
-export default function Home() {
+const Home = () => {
   const [games, setGames] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3001/games")
       .then((res) => {
-        if (!res.ok) throw new Error("Network response not ok");
+        if (!res.ok) {
+          throw new Error("Errore nella risposta del server");
+        }
         return res.json();
       })
-      .then((data) => {
-        console.log("Dati dal backend:", data);
-        setGames(data);
-      })
-      .catch((error) => {
-        console.error("Errore fetch:", error);
-        setGames([]);
+      .then((data) => setGames(data))
+      .catch((err) => {
+        console.error("Errore nel fetch:", err);
       });
   }, []);
 
-  const categories = useMemo(() => {
-    const cats = games.map((g) => g.category);
-    return [...new Set(cats)];
-  }, [games]);
-
-  const filteredGames = useMemo(() => {
-    return games.filter((game) => {
-      const matchesSearch = game.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        !categoryFilter || game.category === categoryFilter;
-      return matchesSearch && matchesCategory;
-    });
-  }, [games, searchTerm, categoryFilter]);
-
   return (
-    <>
-      <nav className="navbar">
-        <input
-          type="text"
-          placeholder="Cerca giochi..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-        >
-          <option value="">Tutte le categorie</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-      </nav>
-
-      <main className="game-list">
-        {filteredGames.length === 0 ? (
+    <div>
+      <Navbar />
+      <div style={{ padding: "1rem" }}>
+        <h1>Lista Giochi</h1>
+        {games.length === 0 ? (
           <p>Nessun gioco trovato.</p>
         ) : (
-          filteredGames.map((game) => (
-            <div key={game.id} className="game-card">
-              <img src={game.image} alt={game.title} className="game-image" />
-              <div className="game-info">
-                <h2>{game.title}</h2>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            {games.map((game) => (
+              <div
+                key={game.id}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  width: "200px",
+                }}
+              >
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  style={{
+                    width: "100%",
+                    height: "120px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                  }}
+                />
+                <h3>{game.title}</h3>
+                <p>{game.category}</p>
                 <p>
-                  <strong>Categoria:</strong> {game.category}
-                </p>
-                <p>
-                  <strong>Piattaforma:</strong> {game.platform}
-                </p>
-                <p>
-                  <strong>Anno:</strong> {game.releaseYear}
+                  <strong>{game.price}€</strong>
                 </p>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         )}
-      </main>
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default Home;

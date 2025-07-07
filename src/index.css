@@ -1,68 +1,94 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Orbitron", "Arial", sans-serif;
+  background: linear-gradient(135deg, #181c24 0%, #23272f 100%);
+  min-height: 100vh;
 }
 
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: #222;
-  padding: 10px;
+  background: #181c24;
+  padding: 16px 24px;
   display: flex;
   gap: 10px;
-  color: white;
+  color: #fff;
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .navbar input,
 .navbar select {
-  padding: 5px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
   border: none;
+  background: #23272f;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.navbar input:focus {
+  box-shadow: 0 0 0 2px #00ffe7;
 }
 
 .game-list {
-  margin-top: 60px; /* per spazio sotto la navbar */
+  margin-top: 90px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  padding: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+  padding: 32px 24px;
 }
 
 .game-card {
-  display: flex;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #23272f 60%, #181c24 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
+  border: 2px solid #00ffe7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .game-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 8px 32px 0 rgba(0, 255, 231, 0.18);
+  border-color: #fff;
 }
 
 .game-image {
-  width: 120px;
-  height: 90px;
+  width: 100%;
+  height: 180px;
   object-fit: cover;
-  border-right: 1px solid #ddd;
+  border-bottom: 2px solid #00ffe7;
+  background: #222;
 }
 
 .game-info {
-  padding: 10px;
-  flex: 1;
+  padding: 18px 14px 14px 14px;
+  width: 100%;
+  text-align: center;
 }
 
 .game-info h2 {
-  margin: 0 0 5px 0;
-  font-size: 1.1rem;
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #00ffe744;
 }
 
 .game-info p {
   margin: 2px 0;
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 1rem;
+  color: #00ffe7;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");

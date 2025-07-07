@@ -1,48 +1,44 @@
 import React from "react";
 
 const GameCard = ({ game }) => {
+  // Se il percorso non inizia con '/', aggiungi '/immagini/'
+  const imageSrc =
+    game.image && !game.image.startsWith("/")
+      ? `/immagini/${game.image}`
+      : game.image;
+
   return (
-    <div className="game-card" style={styles.card}>
-      <img src={game.image} alt={game.title} style={styles.image} />
+    <div
+      style={{
+        border: "1px solid #ccc",
+        borderRadius: "6px",
+        padding: "10px",
+        width: "220px",
+        margin: "10px",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+      }}
+    >
+      <img
+        src={imageSrc}
+        alt={game.title}
+        style={{
+          width: "100%",
+          height: "140px",
+          objectFit: "cover",
+          borderRadius: "6px",
+        }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://via.placeholder.com/220x140?text=No+Image";
+        }}
+      />
       <h3>{game.title}</h3>
       <p>
-        <strong>Genere:</strong> {game.category}
+        {game.category} - {game.platform}
       </p>
-      <p>
-        <strong>Piattaforma:</strong> {game.platform}
-      </p>
-      <p>
-        <strong>Developer:</strong> {game.developer}
-      </p>
-      <p>
-        <strong>Anno:</strong> {game.releaseYear}
-      </p>
-      <p>
-        <strong>Voto:</strong> {game.rating}
-      </p>
-      <p>
-        <strong>Prezzo:</strong> €{game.price}
-      </p>
+      <p>Prezzo: €{game.price}</p>
     </div>
   );
-};
-
-const styles = {
-  card: {
-    border: "1px solid #ddd",
-    padding: "1rem",
-    borderRadius: "8px",
-    width: "250px",
-    textAlign: "center",
-    backgroundColor: "#f9f9f9",
-  },
-  image: {
-    width: "100%",
-    height: "150px",
-    objectFit: "cover",
-    marginBottom: "1rem",
-    borderRadius: "4px",
-  },
 };
 
 export default GameCard;

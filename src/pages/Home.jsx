@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import GameCard from "../components/GameCard";
 
 const Home = () => {
   const [games, setGames] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:3001/games")
@@ -15,7 +17,12 @@ const Home = () => {
     <div className="game-list">
       {games.length > 0 ? (
         games.map((game) => (
-          <div className="game-card" key={game.id}>
+          <div
+            className="game-card"
+            key={game.id}
+            onClick={() => navigate(`/games/${game.id}`)}
+            style={{ cursor: "pointer" }}
+          >
             <img
               className="game-image"
               src={game.image}

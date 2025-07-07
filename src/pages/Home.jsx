@@ -1,44 +1,87 @@
-// src/pages/Home.jsx /// fetch per collegamento al back
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
-function Home() {
+export default function Home() {
   const [games, setGames] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
 
   useEffect(() => {
-    async function fetchGames() {
-      try {
-        const res = await fetch("http://localhost:3001/games");
-        console.log("Status:", res.status);
-        const data = await res.json();
-        console.log("Dati ricevuti:", data);
+    fetch("http://localhost:3001/games")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response not ok");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Dati dal backend:", data);
         setGames(data);
-      } catch (error) {
-        console.error("Errore nel fetch dei giochi:", error);
-      }
-    }
-    fetchGames();
+      })
+      .catch((error) => {
+        console.error("Errore fetch:", error);
+        setGames([]);
+      });
   }, []);
 
+  const categories = useMemo(() => {
+    const cats = games.map((g) => g.category);
+    return [...new Set(cats)];
+  }, [games]);
+
+  const filteredGames = useMemo(() => {
+    return games.filter((game) => {
+      const matchesSearch = game.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        !categoryFilter || game.category === categoryFilter;
+      return matchesSearch && matchesCategory;
+    });
+  }, [games, searchTerm, categoryFilter]);
+
   return (
-    <div>
-      <h1>Giochi Indie</h1>
-      {games.length === 0 ? (
-        <p>Caricamento in corso...</p>
-      ) : (
-        <ul>
-          {games.map((game) => (
-            <li key={game.title}>
-              <h2>{game.title}</h2>
-              <p>
-                {game.category} - {game.platform}
-              </p>
-              <p>{game.description}</p>
-            </li>
+    <>
+      <nav className="navbar">
+        <input
+          type="text"
+          placeholder="Cerca giochi..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="">Tutte le categorie</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
           ))}
-        </ul>
-      )}
-    </div>
+        </select>
+      </nav>
+
+      <main className="game-list">
+        {filteredGames.length === 0 ? (
+          <p>Nessun gioco trovato.</p>
+        ) : (
+          filteredGames.map((game) => (
+            <div key={game.id} className="game-card">
+              <img src={game.image} alt={game.title} className="game-image" />
+              <div className="game-info">
+                <h2>{game.title}</h2>
+                <p>
+                  <strong>Categoria:</strong> {game.category}
+                </p>
+                <p>
+                  <strong>Piattaforma:</strong> {game.platform}
+                </p>
+                <p>
+                  <strong>Anno:</strong> {game.releaseYear}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
+      </main>
+    </>
   );
 }
-
-export default Home;

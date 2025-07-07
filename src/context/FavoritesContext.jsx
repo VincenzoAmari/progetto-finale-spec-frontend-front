@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const FavoritesContext = createContext();
+const FavoritesContext = createContext({
+  favorites: [],
+  addFavorite: () => {},
+  removeFavorite: () => {},
+  isFavorite: () => false,
+});
 
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
-    // Persistenza su localStorage
     const saved = localStorage.getItem("favorites");
-    return saved ? JSON.parse(saved) : [];
+    return Array.isArray(saved ? JSON.parse(saved) : [])
+      ? JSON.parse(saved)
+      : [];
   });
 
   useEffect(() => {
@@ -14,7 +20,9 @@ export function FavoritesProvider({ children }) {
   }, [favorites]);
 
   const addFavorite = (id) => {
-    setFavorites((prev) => [...prev, Number(id)]);
+    setFavorites((prev) =>
+      prev.includes(Number(id)) ? prev : [...prev, Number(id)]
+    );
   };
 
   const removeFavorite = (id) => {

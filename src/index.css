@@ -65,9 +65,37 @@ body {
 .game-list {
   margin-top: 90px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   padding: 32px 24px;
+  width: 90%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1200px) {
+  .game-list {
+    width: 98%;
+  }
+}
+
+@media (max-width: 720px) {
+  .game-list {
+    grid-template-columns: repeat(2, 1fr);
+    width: 99%;
+    padding: 16px 4px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-list {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding: 8px 2px;
+    gap: 10px;
+  }
 }
 
 .game-card {
@@ -80,7 +108,12 @@ body {
   border: 2px solid #00ffe7;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  min-width: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 340px;
+  position: relative;
 }
 
 .game-card:hover {
@@ -91,32 +124,49 @@ body {
 
 .game-image {
   width: 100%;
-  height: 180px;
+  height: 80%;
+  min-height: 0;
   object-fit: cover;
   border-bottom: 2px solid #00ffe7;
   background: #222;
+  flex: 0 0 80%;
 }
 
 .game-info {
-  padding: 18px 14px 14px 14px;
   width: 100%;
   text-align: center;
+  height: 20%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 20%;
+  padding: 6px 8px 6px 8px;
+  box-sizing: border-box;
 }
 
 .game-info h2 {
-  margin: 0 0 8px 0;
-  font-size: 1.25rem;
+  margin: 0 0 2px 0;
+  font-size: 0.95rem;
   color: #fff;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-shadow: 0 2px 8px #00ffe744;
 }
 
 .game-info p {
   margin: 2px 0;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #00ffe7;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.game-info div {
+  font-size: 0.95rem;
+}
+
+.game-card span[title] {
+  font-size: 26px !important;
 }
 
 .game-detail {

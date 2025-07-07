@@ -15,7 +15,7 @@ const GameDetail = () => {
         return res.json();
       })
       .then((data) => {
-        setGame(data);
+        setGame(data.game); // Prendi il vero oggetto gioco
         setLoading(false);
       })
       .catch((err) => {
@@ -28,6 +28,8 @@ const GameDetail = () => {
   if (error) return <div className="game-detail">{error}</div>;
   if (!game) return null;
 
+  console.log("DETTAGLIO GAME:", game);
+
   return (
     <div className="game-detail">
       <img
@@ -35,12 +37,17 @@ const GameDetail = () => {
         src={game.image}
         alt={game.title}
         onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = "https://via.placeholder.com/320x200?text=No+Image";
+          if (!e.target.src.includes("via.placeholder.com")) {
+            e.target.onerror = null;
+            e.target.src = "https://via.placeholder.com/320x200?text=No+Image";
+          }
         }}
       />
       <div className="game-detail-info">
         <h1 style={{ marginBottom: 0 }}>{game.title}</h1>
+        <p>
+          <strong>ID:</strong> {game.id}
+        </p>
         <p>
           <strong>Categoria:</strong> {game.category}
         </p>

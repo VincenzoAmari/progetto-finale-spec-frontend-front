@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 
-const Navbar = () => {
+const Navbar = ({ search, setSearch }) => {
   const { favorites } = useFavorites();
   const location = useLocation();
 
@@ -44,6 +44,8 @@ const Navbar = () => {
             type="text"
             className="form-control"
             placeholder="Cerca giochi..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             style={{
               minWidth: 120,
               maxWidth: 400,

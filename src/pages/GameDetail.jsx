@@ -15,7 +15,7 @@ const GameDetail = () => {
         return res.json();
       })
       .then((data) => {
-        setGame(data.game); // Prendi il vero oggetto gioco
+        setGame(data.game);
         setLoading(false);
       })
       .catch((err) => {

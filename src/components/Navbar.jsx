@@ -15,7 +15,6 @@ const Navbar = ({ search, setSearch }) => {
         className="container-fluid d-flex align-items-center justify-content-between"
         style={{ gap: 0 }}
       >
-        {/* Sinistra: nome sito e tasto home */}
         <div className="d-flex align-items-center" style={{ minWidth: 120 }}>
           {location.pathname !== "/" && (
             <Link
@@ -38,7 +37,7 @@ const Navbar = ({ search, setSearch }) => {
             IndieGogo
           </h2>
         </div>
-        {/* Centro: barra di ricerca */}
+
         <div className="mx-auto w-50 d-flex justify-content-center align-items-center">
           <input
             type="text"
@@ -56,7 +55,7 @@ const Navbar = ({ search, setSearch }) => {
             }}
           />
         </div>
-        {/* Destra: stella preferiti */}
+
         <div
           className="d-flex align-items-center justify-content-end"
           style={{ minWidth: 60 }}

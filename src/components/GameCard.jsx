@@ -1,12 +1,6 @@
 import React from "react";
 
 const GameCard = ({ game }) => {
-  // Se il percorso non inizia con '/', aggiungi '/immagini/'
-  const imageSrc =
-    game.image && !game.image.startsWith("/")
-      ? `/immagini/${game.image}`
-      : game.image;
-
   return (
     <div
       style={{
@@ -19,7 +13,7 @@ const GameCard = ({ game }) => {
       }}
     >
       <img
-        src={imageSrc}
+        src={game.image}
         alt={game.title}
         style={{
           width: "100%",
@@ -28,8 +22,10 @@ const GameCard = ({ game }) => {
           borderRadius: "6px",
         }}
         onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = "https://via.placeholder.com/220x140?text=No+Image";
+          if (!e.target.src.includes("via.placeholder.com")) {
+            e.target.onerror = null;
+            e.target.src = "https://via.placeholder.com/220x140?text=No+Image";
+          }
         }}
       />
       <h3>{game.title}</h3>

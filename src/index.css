@@ -254,3 +254,28 @@ body {
     height: 140px;
   }
 }
+
+.form-select {
+  background: #23272f;
+  color: #00ffe7;
+  border: 1.5px solid #00ffe7;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  margin-right: 8px;
+  font-family: inherit;
+  box-shadow: 0 2px 8px #00ffe722;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.form-select:focus {
+  outline: none;
+  border: 2px solid #ffd600;
+  box-shadow: 0 2px 12px #ffd60044;
+}
+@media (max-width: 700px) {
+  .form-select {
+    font-size: 0.95rem;
+    padding: 6px 8px;
+    margin-right: 4px;
+  }
+}

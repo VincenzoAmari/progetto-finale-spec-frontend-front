@@ -2,11 +2,14 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import Navbar from "../components/Navbar";
+import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { MdTextFields } from "react-icons/md";
 
 const Home = () => {
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [sortBy, setSortBy] = useState("az"); // az, za, priceAsc, priceDesc
   const navigate = useNavigate();
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
@@ -32,6 +35,23 @@ const Home = () => {
     );
   }, [games, search, category]);
 
+  // Ordinamento giochi
+  const sortedGames = useMemo(() => {
+    const arr = [...filteredGames];
+    arr.sort((a, b) => {
+      // Gestione robusta del campo prezzo
+      const priceA =
+        a.price ?? a.prezzo ?? (a.game && (a.game.price ?? a.game.prezzo));
+      const priceB =
+        b.price ?? b.prezzo ?? (b.game && (b.game.price ?? b.game.prezzo));
+      if (sortBy === "priceAsc") return Number(priceA) - Number(priceB);
+      if (sortBy === "priceDesc") return Number(priceB) - Number(priceA);
+      if (sortBy === "za") return b.title.localeCompare(a.title);
+      return a.title.localeCompare(b.title);
+    });
+    return arr;
+  }, [filteredGames, sortBy]);
+
   const handleFavorite = (e, id) => {
     e.stopPropagation();
     const numId = Number(id);
@@ -52,6 +72,7 @@ const Home = () => {
           justifyContent: "center",
           marginTop: 90,
           marginBottom: 20,
+          gap: 16,
         }}
       >
         <select
@@ -67,10 +88,79 @@ const Home = () => {
             </option>
           ))}
         </select>
+        <div
+          className="sort-buttons"
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            marginLeft: 16,
+          }}
+        >
+          <button
+            className={`sort-btn${sortBy === "priceAsc" ? " active" : ""}`}
+            onClick={() =>
+              setSortBy(sortBy === "priceAsc" ? "priceDesc" : "priceAsc")
+            }
+            title={
+              sortBy === "priceAsc" ? "Prezzo crescente" : "Prezzo decrescente"
+            }
+            style={{
+              background:
+                sortBy === "priceAsc" || sortBy === "priceDesc"
+                  ? "#00ffe7"
+                  : "#23272f",
+              color:
+                sortBy === "priceAsc" || sortBy === "priceDesc"
+                  ? "#181c24"
+                  : "#00ffe7",
+              border: "1.5px solid #00ffe7",
+              borderRadius: 8,
+              padding: "8px 12px",
+              fontSize: 18,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <FaEuroSign />
+            {sortBy === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
+          </button>
+          <button
+            className={`sort-btn${
+              sortBy === "az" || sortBy === "za" ? " active" : ""
+            }`}
+            onClick={() => setSortBy(sortBy === "az" ? "za" : "az")}
+            title={sortBy === "az" ? "Ordina A-Z" : "Ordina Z-A"}
+            style={{
+              background:
+                sortBy === "az" || sortBy === "za" ? "#00ffe7" : "#23272f",
+              color: sortBy === "az" || sortBy === "za" ? "#181c24" : "#00ffe7",
+              border: "1.5px solid #00ffe7",
+              borderRadius: 8,
+              padding: "8px 12px",
+              fontSize: 18,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <MdTextFields />
+            {sortBy === "az" ? (
+              <span style={{ fontWeight: 700 }}>A</span>
+            ) : (
+              <span style={{ fontWeight: 700 }}>Z</span>
+            )}
+          </button>
+        </div>
       </div>
       <div className="game-list">
-        {filteredGames.length > 0 ? (
-          filteredGames.map((game) => (
+        {sortedGames.length > 0 ? (
+          sortedGames.map((game) => (
             <div
               className="game-card"
               key={game.id}

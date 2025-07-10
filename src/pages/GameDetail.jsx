@@ -46,9 +46,6 @@ const GameDetail = () => {
       <div className="game-detail-info">
         <h1 style={{ marginBottom: 0 }}>{game.title}</h1>
         <p>
-          <strong>ID:</strong> {game.id}
-        </p>
-        <p>
           <strong>Categoria:</strong> {game.category}
         </p>
         <p>

@@ -1,0 +1,75 @@
+/* FilterSortBar styles */
+.filter-sort-bar-sticky {
+  position: sticky;
+  top: 70px;
+  z-index: 999;
+  width: 100%;
+  background: rgba(24, 28, 36, 0.85);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 12px #00ffe722;
+  padding: 12px 0 8px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+  gap: 0;
+}
+.sort-btn {
+  background: #23272f;
+  color: #00ffe7;
+  border: 1.5px solid #00ffe7;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sort-btn.active {
+  background: #00ffe7;
+  color: #181c24;
+}
+@media (max-width: 700px) {
+  .filter-sort-bar-sticky {
+    top: 56px;
+    padding: 8px 0 6px 0;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .filter-sort-bar-sticky > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-sort-bar-sticky select.form-select {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .filter-sort-bar-sticky .sort-btn {
+    width: 100%;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (max-width: 480px) {
+  .filter-sort-bar-sticky {
+    flex-direction: column;
+    gap: 10px;
+    padding: 6px 0 4px 0;
+  }
+  .filter-sort-bar-sticky > div {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .filter-sort-bar-sticky .sort-btn {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import "./GameDetail.css";
 
 const GameDetail = () => {
   const { id } = useParams();

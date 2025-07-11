@@ -1,4 +1,5 @@
 import React from "react";
+import "./CompareOverlay.css";
 
 const CompareOverlay = ({ compared, onClose }) =>
   compared.length === 2 && (

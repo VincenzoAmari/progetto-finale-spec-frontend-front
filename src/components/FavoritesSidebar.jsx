@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "./FavoritesSidebar.css";
 
 const FavoritesSidebar = ({ games, isFavorite, removeFavorite }) => {
   const navigate = useNavigate();

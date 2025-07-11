@@ -2,14 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import Navbar from "../components/Navbar";
-import {
-  FaEuroSign,
-  FaArrowUp,
-  FaArrowDown,
-  FaSearch,
-  FaBalanceScale,
-} from "react-icons/fa";
-import { MdTextFields } from "react-icons/md";
 import GameCard from "../components/GameCard";
 import FavoritesSidebar from "../components/FavoritesSidebar";
 import FilterSortBar from "../components/FilterSortBar";
@@ -20,7 +12,8 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sortBy, setSortBy] = useState("az");
-  const [compareGames, setCompareGames] = useState([]); // array di id
+  const [compareGames, setCompareGames] = useState([]);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const navigate = useNavigate();
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
@@ -31,26 +24,29 @@ const Home = () => {
       .catch((err) => console.error("Errore nel fetch:", err));
   }, []);
 
-  // Ricava le categorie uniche
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [search]);
+
   const categories = useMemo(() => {
     const cats = games.map((g) => g.category).filter(Boolean);
     return [...new Set(cats)];
   }, [games]);
 
-  // Filtro giochi per ricerca e categoria
   const filteredGames = useMemo(() => {
     return games.filter(
       (game) =>
-        game.title.toLowerCase().includes(search.toLowerCase()) &&
+        game.title.toLowerCase().includes(debouncedSearch.toLowerCase()) &&
         (category === "" || game.category === category)
     );
-  }, [games, search, category]);
+  }, [games, debouncedSearch, category]);
 
-  // Ordinamento giochi
   const sortedGames = useMemo(() => {
     const arr = [...filteredGames];
     arr.sort((a, b) => {
-      // Gestione robusta del campo prezzo
       const priceA =
         a.price ?? a.prezzo ?? (a.game && (a.game.price ?? a.game.prezzo));
       const priceB =
@@ -63,7 +59,6 @@ const Home = () => {
     return arr;
   }, [filteredGames, sortBy]);
 
-  // Gestione selezione comparazione
   const handleCompareToggle = (id) => {
     setCompareGames((prev) => {
       if (prev.includes(id)) return prev.filter((gid) => gid !== id);
@@ -72,10 +67,8 @@ const Home = () => {
     });
   };
 
-  // Chiudi overlay
   const handleCloseCompare = () => setCompareGames([]);
 
-  // Ottieni i dati dei giochi selezionati
   const compared = compareGames.map((id) => games.find((g) => g.id === id));
 
   return (

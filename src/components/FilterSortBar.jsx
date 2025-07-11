@@ -1,6 +1,7 @@
 import React from "react";
 import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
+import "./FilterSortBar.css";
 
 const FilterSortBar = ({
   category,

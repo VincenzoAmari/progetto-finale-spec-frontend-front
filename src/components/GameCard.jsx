@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { FaBalanceScale } from "react-icons/fa";
+import "./GameCard.css";
 
 const GameCard = React.memo(
   ({

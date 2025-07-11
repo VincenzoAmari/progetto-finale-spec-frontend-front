@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import Navbar from "../components/Navbar";
-import { FaEuroSign, FaArrowUp, FaArrowDown, FaSearch } from "react-icons/fa";
+import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
 
 const Home = () => {
@@ -64,15 +64,100 @@ const Home = () => {
 
   return (
     <>
-      <Navbar
-        search={search}
-        setSearch={setSearch}
-        category={category}
-        setCategory={setCategory}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        categories={categories}
-      />
+      <Navbar search={search} setSearch={setSearch} />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 90,
+          marginBottom: 20,
+          gap: 16,
+        }}
+      >
+        <select
+          className="form-select"
+          style={{ maxWidth: 300, minWidth: 120 }}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Tutti i generi</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        <div
+          className="sort-buttons"
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            marginLeft: 16,
+          }}
+        >
+          <button
+            className={`sort-btn${sortBy === "priceAsc" ? " active" : ""}`}
+            onClick={() =>
+              setSortBy(sortBy === "priceAsc" ? "priceDesc" : "priceAsc")
+            }
+            title={
+              sortBy === "priceAsc" ? "Prezzo crescente" : "Prezzo decrescente"
+            }
+            style={{
+              background:
+                sortBy === "priceAsc" || sortBy === "priceDesc"
+                  ? "#00ffe7"
+                  : "#23272f",
+              color:
+                sortBy === "priceAsc" || sortBy === "priceDesc"
+                  ? "#181c24"
+                  : "#00ffe7",
+              border: "1.5px solid #00ffe7",
+              borderRadius: 8,
+              padding: "8px 12px",
+              fontSize: 18,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <FaEuroSign />
+            {sortBy === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
+          </button>
+          <button
+            className={`sort-btn${
+              sortBy === "az" || sortBy === "za" ? " active" : ""
+            }`}
+            onClick={() => setSortBy(sortBy === "az" ? "za" : "az")}
+            title={sortBy === "az" ? "Ordina A-Z" : "Ordina Z-A"}
+            style={{
+              background:
+                sortBy === "az" || sortBy === "za" ? "#00ffe7" : "#23272f",
+              color: sortBy === "az" || sortBy === "za" ? "#181c24" : "#00ffe7",
+              border: "1.5px solid #00ffe7",
+              borderRadius: 8,
+              padding: "8px 12px",
+              fontSize: 18,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <MdTextFields />
+            {sortBy === "az" ? (
+              <span style={{ fontWeight: 700 }}>A</span>
+            ) : (
+              <span style={{ fontWeight: 700 }}>Z</span>
+            )}
+          </button>
+        </div>
+      </div>
       <div className="game-list">
         {sortedGames.length > 0 ? (
           sortedGames.map((game) => (
@@ -84,7 +169,11 @@ const Home = () => {
             >
               <img
                 className="game-image"
-                src={game.image}
+                src={
+                  game.image && !game.image.startsWith("/")
+                    ? `/immagini/${game.image}`
+                    : game.image
+                }
                 alt={game.title}
                 onError={(e) => {
                   e.target.onerror = null;
@@ -112,31 +201,34 @@ const Home = () => {
               >
                 {isFavorite(Number(game.id)) ? "★" : "☆"}
               </span>
-              <div className="game-info">
-                <h2>{game.title}</h2>
-                <p>
-                  {game.category} - {game.platform}
-                </p>
-                <p>
-                  Prezzo: €
-                  {game.price !== undefined
-                    ? Number(game.price).toFixed(2)
-                    : "N/A"}
-                </p>
+              <div
+                className="game-info"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <div style={{ textAlign: "left" }}>
+                  <h2 style={{ margin: 0 }}>{game.title}</h2>
+                  <p style={{ margin: 0 }}>{game.category}</p>
+                </div>
+                <div style={{ flex: 1 }} />
+                <div
+                  style={{
+                    textAlign: "right",
+                    fontWeight: 700,
+                    color: "#FFD600",
+                    fontSize: 18,
+                  }}
+                >
+                  €{game.price}
+                </div>
               </div>
             </div>
           ))
         ) : (
-          <p
-            style={{
-              color: "#fff",
-              textAlign: "center",
-              marginTop: 60,
-              fontSize: 18,
-            }}
-          >
-            Nessun gioco trovato.
-          </p>
+          <p>Nessun gioco trovato.</p>
         )}
       </div>
     </>

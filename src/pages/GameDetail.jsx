@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 const GameDetail = () => {
@@ -6,6 +6,7 @@ const GameDetail = () => {
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const loggedRef = useRef(false);
 
   useEffect(() => {
     setLoading(true);
@@ -17,6 +18,10 @@ const GameDetail = () => {
       .then((data) => {
         setGame(data.game);
         setLoading(false);
+        if (!loggedRef.current) {
+          console.log("DETTAGLIO GAME:", data.game);
+          loggedRef.current = true;
+        }
       })
       .catch((err) => {
         setError(err.message);
@@ -27,8 +32,6 @@ const GameDetail = () => {
   if (loading) return <div className="game-detail">Caricamento...</div>;
   if (error) return <div className="game-detail">{error}</div>;
   if (!game) return null;
-
-  console.log("DETTAGLIO GAME:", game);
 
   return (
     <div className="game-detail">

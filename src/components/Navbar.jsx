@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import { FaSearch } from "react-icons/fa";
@@ -9,6 +9,18 @@ const Navbar = ({ search, setSearch }) => {
 
   const showSearch =
     location.pathname === "/" || location.pathname === "/favorites";
+
+  // Debounce locale per la barra di ricerca
+  const [localSearch, setLocalSearch] = useState(search);
+  useEffect(() => {
+    setLocalSearch(search);
+  }, [search]);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearch(localSearch);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [localSearch, setSearch]);
 
   return (
     <nav
@@ -65,8 +77,8 @@ const Navbar = ({ search, setSearch }) => {
                 type="text"
                 className="form-control"
                 placeholder="Cerca un gioco..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={localSearch}
+                onChange={(e) => setLocalSearch(e.target.value)}
                 style={{
                   minWidth: 120,
                   maxWidth: 400,

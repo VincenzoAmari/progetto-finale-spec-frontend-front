@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useRef } from "react";
+import React, { useCallback } from "react";
 import { FaBalanceScale } from "react-icons/fa";
 
 const GameCard = React.memo(
@@ -10,33 +10,6 @@ const GameCard = React.memo(
     compareSelected,
     onCompareToggle,
   }) => {
-    // Memoizza il prezzo
-    const priceRef = useRef("N/A");
-    priceRef.current = useMemo(() => {
-      if (
-        typeof game.price === "number" &&
-        !isNaN(game.price) &&
-        game.price > 0
-      ) {
-        return game.price.toFixed(2);
-      }
-      if (
-        typeof game.price === "string" &&
-        !isNaN(Number(game.price)) &&
-        Number(game.price) > 0
-      ) {
-        return Number(game.price).toFixed(2);
-      }
-      return "N/A";
-    }, [game.price]);
-
-    // Memoizza l'immagine
-    const imageSrc = useMemo(() => {
-      return game.image && typeof game.image === "string" && game.image.trim()
-        ? game.image
-        : "https://via.placeholder.com/220x140?text=No+Image";
-    }, [game.image]);
-
     // Memoizza il toggle preferiti
     const handleFavorite = useCallback(
       (e) => {
@@ -58,7 +31,7 @@ const GameCard = React.memo(
       >
         <img
           className="game-image"
-          src={imageSrc}
+          src={game.image}
           alt={game.title}
           onError={(e) => {
             if (!e.target.src.includes("via.placeholder.com")) {
@@ -116,7 +89,12 @@ const GameCard = React.memo(
           <p>
             {game.category} - {game.platform}
           </p>
-          <p>Prezzo: €{priceRef.current}</p>
+          <p>
+            Prezzo: €
+            {typeof game.price === "number"
+              ? game.price.toFixed(2)
+              : game.price}
+          </p>
         </div>
       </div>
     );

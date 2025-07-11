@@ -62,28 +62,6 @@
 .game-card span[title] {
   font-size: 26px !important;
 }
-@media (max-width: 720px) {
-  .game-card {
-    min-width: 0;
-    width: 100%;
-    max-width: 100vw;
-    font-size: 0.95rem;
-    height: auto;
-  }
-  .game-image {
-    height: 120px;
-  }
-}
-@media (max-width: 480px) {
-  .game-card {
-    font-size: 0.9rem;
-    padding: 2px;
-  }
-  .game-image {
-    height: 80px;
-  }
-}
-
 /* Game list grid responsive columns */
 .game-list {
   margin-top: 90px;

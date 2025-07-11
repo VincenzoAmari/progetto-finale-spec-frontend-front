@@ -1,7 +1,15 @@
 import React, { useMemo, useCallback, useRef } from "react";
+import { FaBalanceScale } from "react-icons/fa";
 
 const GameCard = React.memo(
-  ({ game, isFavorite, onFavoriteToggle, onClick }) => {
+  ({
+    game,
+    isFavorite,
+    onFavoriteToggle,
+    onClick,
+    compareSelected,
+    onCompareToggle,
+  }) => {
     // Memoizza il prezzo
     const priceRef = useRef("N/A");
     priceRef.current = useMemo(() => {
@@ -75,6 +83,33 @@ const GameCard = React.memo(
           title={isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
         >
           {isFavorite ? "★" : "☆"}
+        </span>
+        {/* Icona comparazione */}
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onCompareToggle) onCompareToggle();
+          }}
+          style={{
+            position: "absolute",
+            top: 10,
+            left: 12,
+            fontSize: 24,
+            color: compareSelected ? "#00ffe7" : "#bbb",
+            cursor: "pointer",
+            userSelect: "none",
+            textShadow: "0 2px 8px #222",
+            background: compareSelected ? "#23272f" : "transparent",
+            borderRadius: "50%",
+            padding: "2px 6px",
+          }}
+          title={
+            compareSelected
+              ? "Rimuovi dalla comparazione"
+              : "Confronta questo gioco"
+          }
+        >
+          <FaBalanceScale />
         </span>
         <div className="game-info">
           <h2>{game.title}</h2>

@@ -2,14 +2,22 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import Navbar from "../components/Navbar";
-import { FaEuroSign, FaArrowUp, FaArrowDown, FaSearch } from "react-icons/fa";
+import {
+  FaEuroSign,
+  FaArrowUp,
+  FaArrowDown,
+  FaSearch,
+  FaBalanceScale,
+} from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
+import GameCard from "../components/GameCard";
 
 const Home = () => {
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [sortBy, setSortBy] = useState("az"); // az, za, priceAsc, priceDesc
+  const [sortBy, setSortBy] = useState("az");
+  const [compareGames, setCompareGames] = useState([]); // array di id
   const navigate = useNavigate();
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
@@ -52,15 +60,20 @@ const Home = () => {
     return arr;
   }, [filteredGames, sortBy]);
 
-  const handleFavorite = (e, id) => {
-    e.stopPropagation();
-    const numId = Number(id);
-    if (isFavorite(numId)) {
-      removeFavorite(numId);
-    } else {
-      addFavorite(numId);
-    }
+  // Gestione selezione comparazione
+  const handleCompareToggle = (id) => {
+    setCompareGames((prev) => {
+      if (prev.includes(id)) return prev.filter((gid) => gid !== id);
+      if (prev.length < 2) return [...prev, id];
+      return prev;
+    });
   };
+
+  // Chiudi overlay
+  const handleCloseCompare = () => setCompareGames([]);
+
+  // Ottieni i dati dei giochi selezionati
+  const compared = compareGames.map((id) => games.find((g) => g.id === id));
 
   return (
     <>
@@ -165,55 +178,23 @@ const Home = () => {
       <div className="game-list">
         {sortedGames.length > 0 ? (
           sortedGames.map((game) => (
-            <div
-              className="game-card"
+            <GameCard
               key={game.id}
-              onClick={() => navigate(`/games/${game.id}`)}
-              style={{ cursor: "pointer", position: "relative" }}
-            >
-              <img
-                className="game-image"
-                src={game.image}
-                alt={game.title}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src =
-                    "https://via.placeholder.com/220x140?text=No+Image";
-                }}
-              />
-              <span
-                onClick={(e) => handleFavorite(e, game.id)}
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 12,
-                  fontSize: 26,
-                  color: isFavorite(Number(game.id)) ? "#FFD600" : "#bbb",
-                  cursor: "pointer",
-                  userSelect: "none",
-                  textShadow: "0 2px 8px #222",
-                }}
-                title={
-                  isFavorite(Number(game.id))
-                    ? "Rimuovi dai preferiti"
-                    : "Aggiungi ai preferiti"
+              game={game}
+              isFavorite={isFavorite(Number(game.id))}
+              onFavoriteToggle={(e) => {
+                e.stopPropagation();
+                const numId = Number(game.id);
+                if (isFavorite(numId)) {
+                  removeFavorite(numId);
+                } else {
+                  addFavorite(numId);
                 }
-              >
-                {isFavorite(Number(game.id)) ? "★" : "☆"}
-              </span>
-              <div className="game-info">
-                <h2>{game.title}</h2>
-                <p>
-                  {game.category} - {game.platform}
-                </p>
-                <p>
-                  Prezzo: €
-                  {game.price !== undefined
-                    ? Number(game.price).toFixed(2)
-                    : "N/A"}
-                </p>
-              </div>
-            </div>
+              }}
+              onClick={() => navigate(`/games/${game.id}`)}
+              compareSelected={compareGames.includes(game.id)}
+              onCompareToggle={() => handleCompareToggle(game.id)}
+            />
           ))
         ) : (
           <p
@@ -228,6 +209,81 @@ const Home = () => {
           </p>
         )}
       </div>
+      {/* Overlay comparazione */}
+      {compareGames.length === 2 && (
+        <div className="compare-overlay">
+          <div className="compare-content">
+            <button className="close-compare" onClick={handleCloseCompare}>
+              ×
+            </button>
+            <div className="compare-cards">
+              {compared.map((game) => (
+                <div className="compare-card" key={game.id}>
+                  <img
+                    className="game-detail-image"
+                    src={game.image}
+                    alt={game.title}
+                    style={{
+                      width: "100%",
+                      height: "220px",
+                      objectFit: "cover",
+                      borderRadius: "14px",
+                      border: "2px solid #00ffe7",
+                      background: "#222",
+                      boxShadow: "0 2px 12px #00ffe733",
+                    }}
+                    onError={(e) => {
+                      if (!e.target.src.includes("via.placeholder.com")) {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://via.placeholder.com/320x200?text=No+Image";
+                      }
+                    }}
+                  />
+                  <div
+                    className="game-detail-info"
+                    style={{
+                      padding: "18px 12px",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        marginBottom: 0,
+                        fontSize: "2rem",
+                        color: "#00ffe7",
+                      }}
+                    >
+                      {game.title}
+                    </h1>
+                    <p>
+                      <strong>Categoria:</strong> {game.category}
+                    </p>
+                    <p>
+                      <strong>Piattaforma:</strong> {game.platform}
+                    </p>
+                    <p>
+                      <strong>Developer:</strong> {game.developer}
+                    </p>
+                    <p>
+                      <strong>Anno:</strong> {game.releaseYear}
+                    </p>
+                    <p>
+                      <strong>Voto:</strong> {game.rating}
+                    </p>
+                    <p>
+                      <strong>Prezzo:</strong> €{game.price}
+                    </p>
+                    <p>
+                      <strong>Descrizione:</strong> {game.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

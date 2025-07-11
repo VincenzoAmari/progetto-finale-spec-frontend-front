@@ -1,10 +1,14 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
+import { FaSearch } from "react-icons/fa";
 
 const Navbar = ({ search, setSearch }) => {
   const { favorites } = useFavorites();
   const location = useLocation();
+
+  const showSearch =
+    location.pathname === "/" || location.pathname === "/favorites";
 
   return (
     <nav
@@ -16,45 +20,66 @@ const Navbar = ({ search, setSearch }) => {
         style={{ gap: 0 }}
       >
         <div className="d-flex align-items-center" style={{ minWidth: 120 }}>
-          {location.pathname !== "/" && (
-            <Link
-              to="/"
-              className="btn btn-link text-info fw-bold me-2 p-0"
-              style={{ fontSize: 18, textDecoration: "none" }}
-            >
-              ⬅ Home
-            </Link>
-          )}
-          <h2
-            className="mb-0"
+          <Link
+            to="/"
+            className="btn btn-link text-info fw-bold me-2 p-0"
             style={{
-              fontFamily: "Orbitron, Arial, sans-serif",
-              color: "#00ffe7",
               fontSize: 22,
-              letterSpacing: 1,
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            IndieGogo
-          </h2>
+            <h2
+              className="mb-0"
+              style={{
+                fontFamily: "Orbitron, Arial, sans-serif",
+                color: "#00ffe7",
+                fontSize: 22,
+                letterSpacing: 1,
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              IndieGogo
+            </h2>
+          </Link>
         </div>
 
-        <div className="mx-auto w-50 d-flex justify-content-center align-items-center">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Cerca giochi..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{
-              minWidth: 120,
-              maxWidth: 400,
-              fontSize: 17,
-              background: "#23272f",
-              color: "#fff",
-              border: "1px solid #00ffe7",
-            }}
-          />
-        </div>
+        {showSearch && (
+          <div
+            className="mx-auto w-50 d-flex justify-content-center align-items-center"
+            style={{ gap: 16 }}
+          >
+            <div style={{ position: "relative", width: 320 }}>
+              <FaSearch
+                style={{
+                  position: "absolute",
+                  left: 10,
+                  top: 12,
+                  color: "#00ffe7",
+                  fontSize: 18,
+                }}
+              />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Cerca un gioco..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{
+                  minWidth: 120,
+                  maxWidth: 400,
+                  fontSize: 17,
+                  background: "#23272f",
+                  color: "#fff",
+                  border: "1px solid #00ffe7",
+                  paddingLeft: 34,
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         <div
           className="d-flex align-items-center justify-content-end"

@@ -41,5 +41,11 @@ export function FavoritesProvider({ children }) {
 }
 
 export function useFavorites() {
-  return useContext(FavoritesContext);
+  const context = useContext(FavoritesContext);
+  if (!context || typeof context !== "object" || !("favorites" in context)) {
+    throw new Error(
+      "useFavorites deve essere usato all'interno di FavoritesProvider"
+    );
+  }
+  return context;
 }

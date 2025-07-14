@@ -11,7 +11,6 @@ export default function App() {
     <Router>
       <FavoritesProvider>
         <div className="app">
-          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/games/:id" element={<GameDetail />} />

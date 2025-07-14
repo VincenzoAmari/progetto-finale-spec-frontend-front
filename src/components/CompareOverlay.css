@@ -1,3 +1,38 @@
+/* Scrollbar neon style */
+.compare-content::-webkit-scrollbar {
+  width: 8px;
+}
+.compare-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00ffe7 40%, #ffd700 60%);
+  border-radius: 8px;
+  box-shadow: 0 0 8px #00ffe7, 0 0 8px #ffd700;
+  animation: neon-scroll 2s linear infinite;
+}
+.compare-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+@keyframes neon-scroll {
+  0% {
+    box-shadow: 0 0 8px #00ffe7, 0 0 8px #ffd700;
+  }
+  50% {
+    box-shadow: 0 0 16px #00ffe7, 0 0 16px #ffd700;
+  }
+  100% {
+    box-shadow: 0 0 8px #00ffe7, 0 0 8px #ffd700;
+  }
+}
+/* Firefox */
+.compare-content {
+  scrollbar-width: thin;
+  scrollbar-color: #00ffe7 #23272f;
+}
+/* Hide scrollbar if not supported */
+@supports not selector(::-webkit-scrollbar) {
+  .compare-content {
+    scrollbar-width: none;
+  }
+}
 /* CompareOverlay styles */
 .compare-overlay {
   position: fixed;
@@ -61,38 +96,82 @@
   text-align: left;
 }
 @media (max-width: 900px) {
-  .compare-card {
-    width: 98vw;
-    padding: 10px 2px;
-  }
-  .compare-cards {
-    gap: 18px;
-  }
   .compare-content {
     padding: 12px 4px;
+    flex-direction: column;
+    align-items: center;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .compare-cards {
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+  }
+  .compare-card {
+    width: 96vw;
+    max-width: 420px;
+    padding: 10px 2px;
+    margin: 0 auto;
+  }
+  .compare-content {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .compare-card .game-detail-info {
+    font-size: 0.95rem;
+    padding: 4px 0;
   }
 }
 @media (max-width: 700px) {
-  .compare-card {
-    width: 98vw;
-    padding: 8px 2px;
-  }
-  .compare-cards {
-    gap: 12px;
-  }
   .compare-content {
     padding: 8px 2px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .compare-cards {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  .compare-card {
+    width: 96vw;
+    max-width: 420px;
+    padding: 8px 2px;
+    margin: 0 auto;
+  }
+  .compare-content {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .compare-card .game-detail-info {
+    font-size: 0.9rem;
+    padding: 2px 0;
   }
 }
 @media (max-width: 480px) {
-  .compare-card {
-    padding: 4px 1px;
-    width: 98vw;
-  }
-  .compare-cards {
-    gap: 6px;
-  }
   .compare-content {
     padding: 4px 1px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .compare-cards {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .compare-card {
+    width: 98vw;
+    max-width: 98vw;
+    padding: 4px 1px;
+    margin: 0 auto;
+  }
+  .compare-content {
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .compare-card .game-detail-info {
+    font-size: 0.85rem;
+    padding: 1px 0;
   }
 }

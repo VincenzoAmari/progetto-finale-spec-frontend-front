@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useFavorites } from "../context/FavoritesContext";
 import "./GameDetail.css";
 
 const GameDetail = () => {
@@ -8,6 +9,7 @@ const GameDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const loggedRef = useRef(false);
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
     setLoading(true);
@@ -34,6 +36,16 @@ const GameDetail = () => {
   if (error) return <div className="game-detail">{error}</div>;
   if (!game) return null;
 
+  const handleFavorite = (e) => {
+    e.stopPropagation();
+    const numId = Number(game.id);
+    if (isFavorite(numId)) {
+      removeFavorite(numId);
+    } else {
+      addFavorite(numId);
+    }
+  };
+
   return (
     <div className="game-detail">
       <img
@@ -48,7 +60,27 @@ const GameDetail = () => {
         }}
       />
       <div className="game-detail-info">
-        <h1 style={{ marginBottom: 0 }}>{game.title}</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <h1 style={{ marginBottom: 0 }}>{game.title}</h1>
+          <span
+            onClick={handleFavorite}
+            style={{
+              fontSize: 28,
+              color: isFavorite(Number(game.id)) ? "#FFD600" : "#bbb",
+              cursor: "pointer",
+              userSelect: "none",
+              textShadow: "0 2px 8px #222",
+              marginLeft: 8,
+            }}
+            title={
+              isFavorite(Number(game.id))
+                ? "Rimuovi dai preferiti"
+                : "Aggiungi ai preferiti"
+            }
+          >
+            {isFavorite(Number(game.id)) ? "★" : "☆"}
+          </span>
+        </div>
         <p>
           <strong>Categoria:</strong> {game.category}
         </p>

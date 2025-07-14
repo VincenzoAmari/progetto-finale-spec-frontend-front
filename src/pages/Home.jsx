@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
-import GameCard from "../components/GameCard";
+import GameList from "../components/GameList";
 import FavoritesSidebar from "../components/FavoritesSidebar";
 import FilterSortBar from "../components/FilterSortBar";
 import CompareOverlay from "../components/CompareOverlay";
@@ -44,20 +44,7 @@ const Home = () => {
     );
   }, [games, debouncedSearch, category]);
 
-  const sortedGames = useMemo(() => {
-    const arr = [...filteredGames];
-    arr.sort((a, b) => {
-      const priceA =
-        a.price ?? a.prezzo ?? (a.game && (a.game.price ?? a.game.prezzo));
-      const priceB =
-        b.price ?? b.prezzo ?? (b.game && (b.game.price ?? b.game.prezzo));
-      if (sortBy === "priceAsc") return Number(priceA) - Number(priceB);
-      if (sortBy === "priceDesc") return Number(priceB) - Number(priceA);
-      if (sortBy === "za") return b.title.localeCompare(a.title);
-      return a.title.localeCompare(b.title);
-    });
-    return arr;
-  }, [filteredGames, sortBy]);
+  // La logica di sort e rendering delle card è ora in GameList.jsx
 
   const handleCompareToggle = (id) => {
     setCompareGames((prev) => {
@@ -91,40 +78,16 @@ const Home = () => {
             setSortBy={setSortBy}
             categories={categories}
           />
-          <div className="game-list">
-            {sortedGames.length > 0 ? (
-              sortedGames.map((game) => (
-                <GameCard
-                  key={game.id}
-                  game={game}
-                  isFavorite={isFavorite(Number(game.id))}
-                  onFavoriteToggle={(e) => {
-                    e.stopPropagation();
-                    const numId = Number(game.id);
-                    if (isFavorite(numId)) {
-                      removeFavorite(numId);
-                    } else {
-                      addFavorite(numId);
-                    }
-                  }}
-                  onClick={() => navigate(`/games/${game.id}`)}
-                  compareSelected={compareGames.includes(game.id)}
-                  onCompareToggle={() => handleCompareToggle(game.id)}
-                />
-              ))
-            ) : (
-              <p
-                style={{
-                  color: "#fff",
-                  textAlign: "center",
-                  marginTop: 60,
-                  fontSize: 18,
-                }}
-              >
-                Nessun gioco trovato.
-              </p>
-            )}
-          </div>
+          <GameList
+            games={filteredGames}
+            sortBy={sortBy}
+            isFavorite={isFavorite}
+            addFavorite={addFavorite}
+            removeFavorite={removeFavorite}
+            compareGames={compareGames}
+            handleCompareToggle={handleCompareToggle}
+            navigate={navigate}
+          />
           <CompareOverlay compared={compared} onClose={handleCloseCompare} />
         </div>
         <FavoritesSidebar

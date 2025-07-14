@@ -6,8 +6,7 @@ import "./Navbar.css";
 const Navbar = ({ search, setSearch }) => {
   const location = useLocation();
 
-  const showSearch =
-    location.pathname === "/" || location.pathname === "/favorites";
+  const showSearch = location.pathname === "/";
 
   // Debounce locale per la barra di ricerca
   const [localSearch, setLocalSearch] = useState(search);

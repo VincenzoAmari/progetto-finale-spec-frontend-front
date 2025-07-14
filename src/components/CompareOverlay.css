@@ -65,18 +65,34 @@
     width: 98vw;
     padding: 10px 2px;
   }
-}
-@media (max-width: 700px) {
   .compare-cards {
-    flex-direction: column;
     gap: 18px;
   }
   .compare-content {
     padding: 12px 4px;
   }
 }
+@media (max-width: 700px) {
+  .compare-card {
+    width: 98vw;
+    padding: 8px 2px;
+  }
+  .compare-cards {
+    gap: 12px;
+  }
+  .compare-content {
+    padding: 8px 2px;
+  }
+}
 @media (max-width: 480px) {
   .compare-card {
+    padding: 4px 1px;
+    width: 98vw;
+  }
+  .compare-cards {
+    gap: 6px;
+  }
+  .compare-content {
     padding: 4px 1px;
   }
 }

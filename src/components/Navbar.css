@@ -51,7 +51,10 @@
   border-radius: 0;
   padding: 0;
 }
-@media (max-width: 720px) {
+@media (max-width: 700px) {
+  @media (max-width: 480px) {
+    /* Inserisci qui eventuali regole specifiche per mobile */
+  }
   .navbar {
     flex-direction: column;
     align-items: flex-start;

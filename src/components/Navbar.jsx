@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useFavorites } from "../context/FavoritesContext";
 import { FaSearch } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = ({ search, setSearch }) => {
-  const { favorites } = useFavorites();
   const location = useLocation();
 
   const showSearch =

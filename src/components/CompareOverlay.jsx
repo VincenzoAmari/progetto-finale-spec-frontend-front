@@ -1,15 +1,101 @@
 import React from "react";
 import "./CompareOverlay.css";
 
-const CompareOverlay = ({ compared, onClose }) =>
-  compared.length === 2 && (
+const CompareOverlay = ({ compared, onClose }) => {
+  const [gamesData, setGamesData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+    Promise.all(
+      compared.map((game) => {
+        if (game && game.id && (!game.title || !game.price)) {
+          return fetch(`http://localhost:3001/games/${game.id}`)
+            .then((res) => {
+              if (!res.ok) throw new Error("Gioco non trovato");
+              return res.json();
+            })
+            .then((data) => data.game)
+            .catch((err) => ({ error: err.message, id: game.id }));
+        } else {
+          return Promise.resolve(game);
+        }
+      })
+    )
+      .then((results) => {
+        if (isMounted) {
+          setGamesData(results);
+        }
+      })
+      .catch((err) => {
+        if (isMounted) setError(err.message);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [compared]);
+
+  if (compared.length !== 2) return null;
+  if (loading) {
+    return (
+      <div className="compare-overlay">
+        <div className="compare-content">
+          <button className="close-compare" onClick={onClose}>
+            ×
+          </button>
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span>Caricamento...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="compare-overlay">
+        <div className="compare-content">
+          <button className="close-compare" onClick={onClose}>
+            ×
+          </button>
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "red",
+            }}
+          >
+            <span>Errore: {error}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <div className="compare-overlay">
       <div className="compare-content">
         <button className="close-compare" onClick={onClose}>
           ×
         </button>
         <div className="compare-cards">
-          {compared.map((game) => (
+          {gamesData.map((game) => (
             <div className="compare-card" key={game.id}>
               <img
                 className="game-detail-image"
@@ -76,5 +162,6 @@ const CompareOverlay = ({ compared, onClose }) =>
       </div>
     </div>
   );
+};
 
 export default CompareOverlay;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useGlobal } from "../context/GlobalContext";
+import { useGlobal } from "../context/useGlobal";
 import "./GameDetail.css";
 
 const GameDetail = () => {

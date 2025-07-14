@@ -44,8 +44,6 @@ const Home = () => {
     );
   }, [games, debouncedSearch, category]);
 
-  // La logica di sort e rendering delle card è ora in GameList.jsx
-
   const handleCompareToggle = (id) => {
     setCompareGames((prev) => {
       if (prev.includes(id)) return prev.filter((gid) => gid !== id);

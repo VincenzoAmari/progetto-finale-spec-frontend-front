@@ -91,10 +91,10 @@ const FavoritesPage = () => {
                   src={game.image}
                   alt={game.title}
                   style={{
-                    width: 320,
+                    width: 400,
                     height: 200,
                     objectFit: "cover",
-                    borderRadius: "16px 0 0 16px",
+                    borderRadius: "16px 16px",
                     background: "#23272f",
                   }}
                   onError={(e) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import GameDetail from "./pages/GameDetail";
@@ -8,8 +8,8 @@ import { GlobalProvider } from "./context/GlobalContext";
 
 export default function App() {
   return (
-    <Router>
-      <GlobalProvider>
+    <GlobalProvider>
+      <BrowserRouter>
         <div className="app">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -17,7 +17,7 @@ export default function App() {
             <Route path="/favorites" element={<FavoritesPage />} />
           </Routes>
         </div>
-      </GlobalProvider>
-    </Router>
+      </BrowserRouter>
+    </GlobalProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGlobal } from "../context/GlobalContext";
+import { useGlobal } from "../context/useGlobal";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 

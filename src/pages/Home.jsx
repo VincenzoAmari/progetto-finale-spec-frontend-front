@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFavorites } from "../context/FavoritesContext";
+import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
 import GameCard from "../components/GameCard";
 import FavoritesSidebar from "../components/FavoritesSidebar";
@@ -15,7 +15,7 @@ const Home = () => {
   const [compareGames, setCompareGames] = useState([]);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const navigate = useNavigate();
-  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { isFavorite, addFavorite, removeFavorite } = useGlobal();
 
   useEffect(() => {
     fetch("http://localhost:3001/games")

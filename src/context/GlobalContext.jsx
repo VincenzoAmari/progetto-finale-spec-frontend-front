@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const FavoritesContext = createContext({
+const GlobalContext = createContext({
   favorites: [],
   addFavorite: () => {},
   removeFavorite: () => {},
   isFavorite: () => false,
 });
 
-export function FavoritesProvider({ children }) {
+export function GlobalProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return Array.isArray(saved ? JSON.parse(saved) : [])
@@ -32,19 +32,19 @@ export function FavoritesProvider({ children }) {
   const isFavorite = (id) => favorites.includes(Number(id));
 
   return (
-    <FavoritesContext.Provider
+    <GlobalContext.Provider
       value={{ favorites, addFavorite, removeFavorite, isFavorite }}
     >
       {children}
-    </FavoritesContext.Provider>
+    </GlobalContext.Provider>
   );
 }
 
-export function useFavorites() {
-  const context = useContext(FavoritesContext);
+export function useGlobal() {
+  const context = useContext(GlobalContext);
   if (!context || typeof context !== "object" || !("favorites" in context)) {
     throw new Error(
-      "useFavorites deve essere usato all'interno di FavoritesProvider"
+      "useGlobal deve essere usato all'interno di GlobalProvider"
     );
   }
   return context;

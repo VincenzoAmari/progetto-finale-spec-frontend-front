@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useFavorites } from "../context/FavoritesContext";
+import { useGlobal } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 
 const FavoritesPage = () => {
-  const { favorites, isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { favorites, isFavorite, addFavorite, removeFavorite } = useGlobal();
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
 

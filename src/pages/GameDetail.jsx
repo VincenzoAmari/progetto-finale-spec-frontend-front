@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useFavorites } from "../context/FavoritesContext";
+import { useGlobal } from "../context/GlobalContext";
 import "./GameDetail.css";
 
 const GameDetail = () => {
@@ -9,7 +9,7 @@ const GameDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const loggedRef = useRef(false);
-  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { isFavorite, addFavorite, removeFavorite } = useGlobal();
 
   useEffect(() => {
     setLoading(true);

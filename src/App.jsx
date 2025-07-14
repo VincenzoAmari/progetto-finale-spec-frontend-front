@@ -4,12 +4,12 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import GameDetail from "./pages/GameDetail";
 import FavoritesPage from "./pages/FavoritesPage";
-import { FavoritesProvider } from "./context/FavoritesContext";
+import { GlobalProvider } from "./context/GlobalContext";
 
 export default function App() {
   return (
     <Router>
-      <FavoritesProvider>
+      <GlobalProvider>
         <div className="app">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -17,7 +17,7 @@ export default function App() {
             <Route path="/favorites" element={<FavoritesPage />} />
           </Routes>
         </div>
-      </FavoritesProvider>
+      </GlobalProvider>
     </Router>
   );
 }

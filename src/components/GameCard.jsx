@@ -11,6 +11,32 @@ const GameCard = React.memo(
     compareSelected,
     onCompareToggle,
   }) => {
+    const [gameData, setGameData] = React.useState(game);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
+
+    // Fetch dati gioco se serve
+    React.useEffect(() => {
+      if (game && game.id && (!game.title || !game.price)) {
+        setLoading(true);
+        fetch(`http://localhost:3001/games/${game.id}`)
+          .then((res) => {
+            if (!res.ok) throw new Error("Gioco non trovato");
+            return res.json();
+          })
+          .then((data) => {
+            setGameData(data.game);
+            setError(null);
+          })
+          .catch((err) => {
+            setError(err.message);
+          })
+          .finally(() => setLoading(false));
+      } else {
+        setGameData(game);
+      }
+    }, [game]);
+
     // Memoizza il toggle preferiti
     const handleFavorite = useCallback(
       (e) => {
@@ -24,6 +50,38 @@ const GameCard = React.memo(
       if (onClick) onClick();
     }, [onClick]);
 
+    if (loading) {
+      return (
+        <div
+          className="game-card"
+          style={{
+            minHeight: 180,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span>Caricamento...</span>
+        </div>
+      );
+    }
+    if (error) {
+      return (
+        <div
+          className="game-card"
+          style={{
+            minHeight: 180,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "red",
+          }}
+        >
+          <span>Errore: {error}</span>
+        </div>
+      );
+    }
+
     return (
       <div
         className="game-card"
@@ -32,8 +90,8 @@ const GameCard = React.memo(
       >
         <img
           className="game-image"
-          src={game.image}
-          alt={game.title}
+          src={gameData.image}
+          alt={gameData.title}
           onError={(e) => {
             if (!e.target.src.includes("via.placeholder.com")) {
               e.target.onerror = null;
@@ -86,15 +144,13 @@ const GameCard = React.memo(
           <FaBalanceScale />
         </span>
         <div className="game-info">
-          <h2>{game.title}</h2>
-          <p>
-            {game.category} - {game.platform}
-          </p>
+          <h2>{gameData.title}</h2>
+          <p>{gameData.category}</p>
           <p>
             Prezzo: €
-            {typeof game.price === "number"
-              ? game.price.toFixed(2)
-              : game.price}
+            {typeof gameData.price === "number"
+              ? gameData.price.toFixed(2)
+              : gameData.price}
           </p>
         </div>
       </div>

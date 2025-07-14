@@ -89,8 +89,9 @@ const GameCard = React.memo(
         style={{
           cursor: "pointer",
           position: "relative",
-          width: "540px",
-          height: "380px",
+          width: "100%",
+          maxWidth: "540px",
+          aspectRatio: "16/11.26",
           boxSizing: "border-box",
           overflow: "hidden",
           borderRadius: "12px",

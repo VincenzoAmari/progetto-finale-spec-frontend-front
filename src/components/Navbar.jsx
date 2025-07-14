@@ -16,7 +16,7 @@ const Navbar = ({ search, setSearch }) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setSearch(localSearch);
-    }, 500);
+    }, 400);
     return () => clearTimeout(handler);
   }, [localSearch, setSearch]);
 

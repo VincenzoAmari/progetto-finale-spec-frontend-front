@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { GlobalContext } from "./GlobalContext";
+import React, { createContext, useContext, useState, useEffect } from "react";
+
+const GlobalContext = createContext({
+  favorites: [],
+  addFavorite: () => {},
+  removeFavorite: () => {},
+  isFavorite: () => false,
+});
 
 export function GlobalProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
@@ -32,4 +38,14 @@ export function GlobalProvider({ children }) {
       {children}
     </GlobalContext.Provider>
   );
+}
+
+export function useGlobal() {
+  const context = useContext(GlobalContext);
+  if (!context || typeof context !== "object" || !("favorites" in context)) {
+    throw new Error(
+      "useGlobal deve essere usato all'interno di GlobalProvider"
+    );
+  }
+  return context;
 }

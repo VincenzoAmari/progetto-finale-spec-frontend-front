@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobal } from "../context/useGlobal";
+import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
 import GameList from "../components/GameList";
 import FavoritesSidebar from "../components/FavoritesSidebar";

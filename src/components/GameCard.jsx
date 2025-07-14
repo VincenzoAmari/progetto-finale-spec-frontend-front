@@ -86,72 +86,162 @@ const GameCard = React.memo(
       <div
         className="game-card"
         onClick={handleClick}
-        style={{ cursor: "pointer", position: "relative" }}
+        style={{
+          cursor: "pointer",
+          position: "relative",
+          width: "540px",
+          height: "380px",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          borderRadius: "12px",
+          background: "#181a20",
+          boxShadow: "0 2px 16px #000a",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <img
-          className="game-image"
-          src={gameData.image}
-          alt={gameData.title}
-          onError={(e) => {
-            if (!e.target.src.includes("via.placeholder.com")) {
-              e.target.onerror = null;
-              e.target.src =
-                "https://via.placeholder.com/220x140?text=No+Image";
-            }
-          }}
-        />
-        <span
-          onClick={handleFavorite}
+        <div
           style={{
-            position: "absolute",
-            top: 10,
-            right: 12,
-            fontSize: 26,
-            color: isFavorite ? "#FFD600" : "#bbb",
-            cursor: "pointer",
-            userSelect: "none",
-            textShadow: "0 2px 8px #222",
+            width: "100%",
+            height: "80%",
+            overflow: "hidden",
+            borderRadius: "12px 12px 0 0",
+            position: "relative",
           }}
-          title={isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
         >
-          {isFavorite ? "★" : "☆"}
-        </span>
-        {/* Icona comparazione */}
-        <span
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onCompareToggle) onCompareToggle();
-          }}
+          <img
+            className="game-image"
+            src={gameData.image}
+            alt={gameData.title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              aspectRatio: "16/9",
+            }}
+            onError={(e) => {
+              if (!e.target.src.includes("via.placeholder.com")) {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://via.placeholder.com/540x304?text=No+Image";
+              }
+            }}
+          />
+        </div>
+        <div
+          className="game-info"
           style={{
-            position: "absolute",
-            top: 10,
-            left: 12,
-            fontSize: 24,
-            color: compareSelected ? "#00ffe7" : "#bbb",
-            cursor: "pointer",
-            userSelect: "none",
-            textShadow: "0 2px 8px #222",
-            background: compareSelected ? "#23272f" : "transparent",
-            borderRadius: "50%",
-            padding: "2px 6px",
+            position: "relative",
+            height: "20%",
+            minHeight: 0,
+            padding: "12px 16px 8px 16px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
-          title={
-            compareSelected
-              ? "Rimuovi dalla comparazione"
-              : "Confronta questo gioco"
-          }
         >
-          <FaBalanceScale />
-        </span>
-        <div className="game-info">
-          <h2>{gameData.title}</h2>
-          <p>{gameData.category}</p>
-          <p>
-            Prezzo: €
-            {typeof gameData.price === "number"
-              ? gameData.price.toFixed(2)
-              : gameData.price}
-          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 8,
+              width: "100%",
+            }}
+          >
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onCompareToggle) onCompareToggle();
+              }}
+              style={{
+                fontSize: 28,
+                color: compareSelected ? "#00ffe7" : "#fff",
+                cursor: "pointer",
+                userSelect: "none",
+                textShadow: compareSelected
+                  ? "0 0 8px #00ffe7, 0 0 16px #00ffe7"
+                  : "0 0 8px #fff, 0 0 16px #fff",
+                marginRight: 12,
+              }}
+              title={
+                compareSelected
+                  ? "Rimuovi dalla comparazione"
+                  : "Confronta questo gioco"
+              }
+            >
+              <FaBalanceScale />
+            </span>
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "1.7rem",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  color: "#fff",
+                }}
+              >
+                {gameData.title}
+              </h2>
+            </div>
+            <span
+              onClick={handleFavorite}
+              style={{
+                fontSize: 32,
+                color: isFavorite ? "#FFD600" : "#fff",
+                cursor: "pointer",
+                userSelect: "none",
+                textShadow: isFavorite
+                  ? "0 2px 8px #222"
+                  : "0 0 8px #fff, 0 0 16px #fff",
+                marginLeft: 12,
+              }}
+              title={
+                isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"
+              }
+            >
+              {isFavorite ? "★" : "☆"}
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              marginTop: 4,
+            }}
+          >
+            <p style={{ margin: 0, fontSize: "1.15rem", color: "#bbb" }}>
+              {gameData.category}
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "1.15rem",
+                color: "#fff",
+                fontWeight: 600,
+                textAlign: "right",
+              }}
+            >
+              Prezzo: €
+              {typeof gameData.price === "number"
+                ? gameData.price.toFixed(2)
+                : gameData.price}
+            </p>
+          </div>
         </div>
       </div>
     );

@@ -5,7 +5,7 @@ import "./FavoritesSidebar.css";
 
 const FavoritesSidebar = ({ games }) => {
   const navigate = useNavigate();
-  const { favorites, isFavorite, removeFavorite } = useGlobal();
+  const { isFavorite, removeFavorite } = useGlobal();
   const favoriteGames = games.filter((g) => isFavorite(Number(g.id)));
   return (
     <aside

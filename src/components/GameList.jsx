@@ -51,7 +51,16 @@ const GameList = ({
           />
         ))
       ) : (
-        <p className="game-list-empty">Nessun gioco trovato.</p>
+        <p
+          style={{
+            color: "#fff",
+            textAlign: "center",
+            marginTop: 60,
+            fontSize: 18,
+          }}
+        >
+          Nessun gioco trovato.
+        </p>
       )}
     </div>
   );

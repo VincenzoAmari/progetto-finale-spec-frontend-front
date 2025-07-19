@@ -48,11 +48,21 @@ const CompareOverlay = ({ compared, onClose }) => {
           <button className="close-compare" onClick={onClose}>
             ×
           </button>
-          <div className="compare-cards compare-cards-empty">
-            <span className="compare-empty-main">
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              flexDirection: "column",
+            }}
+          >
+            <span style={{ fontSize: "1.15rem", marginBottom: 8 }}>
               Nessun gioco selezionato per il confronto.
             </span>
-            <span className="compare-empty-sub">
+            <span style={{ fontSize: "1rem", color: "#00ffe7" }}>
               Seleziona giochi da confrontare!
             </span>
           </div>
@@ -68,7 +78,15 @@ const CompareOverlay = ({ compared, onClose }) => {
           <button className="close-compare" onClick={onClose}>
             ×
           </button>
-          <div className="compare-cards compare-cards-loading">
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <span>Caricamento...</span>
           </div>
         </div>
@@ -82,7 +100,16 @@ const CompareOverlay = ({ compared, onClose }) => {
           <button className="close-compare" onClick={onClose}>
             ×
           </button>
-          <div className="compare-cards compare-cards-error">
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "red",
+            }}
+          >
             <span>Errore: {error}</span>
           </div>
         </div>
@@ -98,13 +125,25 @@ const CompareOverlay = ({ compared, onClose }) => {
         </button>
         {gamesData.length === 3 ? (
           <>
-            <div className="compare-cards compare-cards-row">
+            <div
+              className="compare-cards"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
               {gamesData.slice(0, 2).map((game) => (
                 <div className="compare-card" key={game.id}>
                   <img
-                    className="game-detail-image compare-img"
+                    className="game-detail-image"
                     src={game.image}
                     alt={game.title}
+                    style={{
+                      width: "100%",
+                      height: "220px",
+                      objectFit: "cover",
+                      borderRadius: "14px",
+                      border: "2px solid #00ffe7",
+                      background: "#222",
+                      boxShadow: "0 2px 12px #00ffe733",
+                    }}
                     onError={(e) => {
                       if (!e.target.src.includes("via.placeholder.com")) {
                         e.target.onerror = null;
@@ -113,8 +152,22 @@ const CompareOverlay = ({ compared, onClose }) => {
                       }
                     }}
                   />
-                  <div className="game-detail-info compare-info">
-                    <h1 className="compare-title">{game.title}</h1>
+                  <div
+                    className="game-detail-info"
+                    style={{
+                      padding: "18px 12px",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        marginBottom: 0,
+                        fontSize: "2rem",
+                        color: "#00ffe7",
+                      }}
+                    >
+                      {game.title}
+                    </h1>
                     <p>
                       <strong>Categoria:</strong> {game.category}
                     </p>
@@ -140,12 +193,24 @@ const CompareOverlay = ({ compared, onClose }) => {
                 </div>
               ))}
             </div>
-            <div className="compare-cards compare-cards-row compare-cards-third">
+            <div
+              className="compare-cards"
+              style={{ width: "100%", justifyContent: "center", marginTop: 32 }}
+            >
               <div className="compare-card" key={gamesData[2].id}>
                 <img
-                  className="game-detail-image compare-img"
+                  className="game-detail-image"
                   src={gamesData[2].image}
                   alt={gamesData[2].title}
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    objectFit: "cover",
+                    borderRadius: "14px",
+                    border: "2px solid #00ffe7",
+                    background: "#222",
+                    boxShadow: "0 2px 12px #00ffe733",
+                  }}
                   onError={(e) => {
                     if (!e.target.src.includes("via.placeholder.com")) {
                       e.target.onerror = null;
@@ -154,8 +219,22 @@ const CompareOverlay = ({ compared, onClose }) => {
                     }
                   }}
                 />
-                <div className="game-detail-info compare-info">
-                  <h1 className="compare-title">{gamesData[2].title}</h1>
+                <div
+                  className="game-detail-info"
+                  style={{
+                    padding: "18px 12px",
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  <h1
+                    style={{
+                      marginBottom: 0,
+                      fontSize: "2rem",
+                      color: "#00ffe7",
+                    }}
+                  >
+                    {gamesData[2].title}
+                  </h1>
                   <p>
                     <strong>Categoria:</strong> {gamesData[2].category}
                   </p>
@@ -182,13 +261,22 @@ const CompareOverlay = ({ compared, onClose }) => {
             </div>
           </>
         ) : (
-          <div className="compare-cards compare-cards-row">
+          <div className="compare-cards">
             {gamesData.map((game) => (
               <div className="compare-card" key={game.id}>
                 <img
-                  className="game-detail-image compare-img"
+                  className="game-detail-image"
                   src={game.image}
                   alt={game.title}
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    objectFit: "cover",
+                    borderRadius: "14px",
+                    border: "2px solid #00ffe7",
+                    background: "#222",
+                    boxShadow: "0 2px 12px #00ffe733",
+                  }}
                   onError={(e) => {
                     if (!e.target.src.includes("via.placeholder.com")) {
                       e.target.onerror = null;
@@ -197,8 +285,22 @@ const CompareOverlay = ({ compared, onClose }) => {
                     }
                   }}
                 />
-                <div className="game-detail-info compare-info">
-                  <h1 className="compare-title">{game.title}</h1>
+                <div
+                  className="game-detail-info"
+                  style={{
+                    padding: "18px 12px",
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  <h1
+                    style={{
+                      marginBottom: 0,
+                      fontSize: "2rem",
+                      color: "#00ffe7",
+                    }}
+                  >
+                    {game.title}
+                  </h1>
                   <p>
                     <strong>Categoria:</strong> {game.category}
                   </p>

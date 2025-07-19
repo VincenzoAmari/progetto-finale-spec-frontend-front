@@ -61,7 +61,7 @@ const Navbar = ({ search, setSearch }) => {
             className="mx-auto w-50 d-flex justify-content-center align-items-center"
             style={{ gap: 16 }}
           >
-            <div style={{ position: "relative", width: 320 }}>
+            <div style={{ position: "relative", width: 960 }}>
               <FaSearch
                 style={{
                   position: "absolute",
@@ -78,8 +78,8 @@ const Navbar = ({ search, setSearch }) => {
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
                 style={{
-                  minWidth: 120,
-                  maxWidth: 400,
+                  minWidth: 360,
+                  maxWidth: 1200,
                   fontSize: 17,
                   background: "#23272f",
                   color: "#fff",

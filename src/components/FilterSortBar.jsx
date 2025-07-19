@@ -15,18 +15,9 @@ const FilterSortBar = ({
   setTripleCompare,
 }) => (
   <div className="filter-sort-bar-sticky">
-    <div
-      style={{
-        display: "flex",
-        gap: 16,
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
+    <div className="filter-sort-bar-row">
       <select
-        className="form-select"
-        style={{ maxWidth: 180, minWidth: 100 }}
+        className="form-select filter-sort-bar-select"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
       >
@@ -37,34 +28,17 @@ const FilterSortBar = ({
           </option>
         ))}
       </select>
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      <div className="filter-sort-bar-btn-group">
         <button
-          className={`sort-btn${sortBy === "priceAsc" ? " active" : ""}`}
+          className={`sort-btn${
+            sortBy === "priceAsc" || sortBy === "priceDesc" ? " active" : ""
+          }`}
           onClick={() =>
             setSortBy(sortBy === "priceAsc" ? "priceDesc" : "priceAsc")
           }
           title={
             sortBy === "priceAsc" ? "Prezzo crescente" : "Prezzo decrescente"
           }
-          style={{
-            background:
-              sortBy === "priceAsc" || sortBy === "priceDesc"
-                ? "#00ffe7"
-                : "#23272f",
-            color:
-              sortBy === "priceAsc" || sortBy === "priceDesc"
-                ? "#181c24"
-                : "#00ffe7",
-            border: "1.5px solid #00ffe7",
-            borderRadius: 8,
-            padding: "8px 12px",
-            fontSize: 18,
-            cursor: "pointer",
-            transition: "all 0.2s",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
         >
           <FaEuroSign />
           {sortBy === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
@@ -75,50 +49,23 @@ const FilterSortBar = ({
           }`}
           onClick={() => setSortBy(sortBy === "az" ? "za" : "az")}
           title={sortBy === "az" ? "Ordina A-Z" : "Ordina Z-A"}
-          style={{
-            background:
-              sortBy === "az" || sortBy === "za" ? "#00ffe7" : "#23272f",
-            color: sortBy === "az" || sortBy === "za" ? "#181c24" : "#00ffe7",
-            border: "1.5px solid #00ffe7",
-            borderRadius: 8,
-            padding: "8px 12px",
-            fontSize: 18,
-            cursor: "pointer",
-            transition: "all 0.2s",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
         >
           <MdTextFields />
           {sortBy === "az" ? (
-            <span style={{ fontWeight: 700 }}>A</span>
+            <span className="sort-btn-label">A</span>
           ) : (
-            <span style={{ fontWeight: 700 }}>Z</span>
+            <span className="sort-btn-label">Z</span>
           )}
         </button>
         <button
-          className={`sort-btn${tripleCompare ? " active" : ""}`}
+          className={`sort-btn triple-btn${tripleCompare ? " active" : ""}`}
           onClick={() => setTripleCompare((prev) => !prev)}
           title={
             tripleCompare ? "Comparazione tripla attiva" : "Comparazione doppia"
           }
-          style={{
-            background: tripleCompare ? "#ffd700" : "#23272f",
-            color: tripleCompare ? "#181c24" : "#00ffe7",
-            border: "1.5px solid #ffd700",
-            borderRadius: 8,
-            padding: "8px 12px",
-            fontSize: 18,
-            cursor: "pointer",
-            transition: "all 0.2s",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
         >
           <FaBalanceScale />
-          <span style={{ fontWeight: 700, marginLeft: 4 }}>X3</span>
+          <span className="sort-btn-label-x3">X3</span>
         </button>
       </div>
     </div>

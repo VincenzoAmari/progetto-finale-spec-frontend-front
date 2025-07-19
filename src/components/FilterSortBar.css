@@ -1,3 +1,32 @@
+/* Nuove classi per la struttura senza inline style */
+.filter-sort-bar-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.filter-sort-bar-select {
+  max-width: 180px;
+  min-width: 100px;
+}
+.filter-sort-bar-btn-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sort-btn-label {
+  font-weight: 700;
+}
+.sort-btn-label-x3 {
+  font-weight: 700;
+  margin-left: 4px;
+}
+.triple-btn.active {
+  background: #ffd700;
+  color: #181c24;
+  border: 1.5px solid #ffd700;
+}
 /* FilterSortBar styles */
 .filter-sort-bar-sticky {
   position: sticky;

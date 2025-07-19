@@ -41,6 +41,35 @@ const CompareOverlay = ({ compared, onClose }) => {
     };
   }, [compared]);
 
+  if (!compared || compared.length === 0) {
+    return (
+      <div className="compare-overlay">
+        <div className="compare-content">
+          <button className="close-compare" onClick={onClose}>
+            ×
+          </button>
+          <div
+            className="compare-cards"
+            style={{
+              minHeight: 220,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              flexDirection: "column",
+            }}
+          >
+            <span style={{ fontSize: "1.15rem", marginBottom: 8 }}>
+              Nessun gioco selezionato per il confronto.
+            </span>
+            <span style={{ fontSize: "1rem", color: "#00ffe7" }}>
+              Seleziona giochi da confrontare!
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (compared.length !== 2 && compared.length !== 3) return null;
   if (loading) {
     return (

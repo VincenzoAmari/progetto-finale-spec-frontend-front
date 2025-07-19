@@ -35,9 +35,14 @@ const FavoritesSidebar = ({ games }) => {
         Preferiti
       </h2>
       {favoriteGames.length === 0 ? (
-        <p style={{ color: "#fff", textAlign: "center", marginTop: 40 }}>
-          Nessun gioco nei preferiti.
-        </p>
+        <div style={{ color: "#fff", textAlign: "center", marginTop: 40 }}>
+          <p style={{ fontSize: "1.15rem", marginBottom: 8 }}>
+            Nessun gioco nei preferiti.
+          </p>
+          <p style={{ fontSize: "1rem", color: "#00ffe7" }}>
+            Seleziona i tuoi preferiti!
+          </p>
+        </div>
       ) : (
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {favoriteGames.map((game) => (

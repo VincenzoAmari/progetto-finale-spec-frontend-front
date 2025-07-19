@@ -8,6 +8,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* Empty state for GameList */
+.game-list-empty {
+  color: #fff;
+  text-align: center;
+  margin-top: 60px;
+  font-size: 18px;
+}
 @media (max-width: 900px) {
   .game-list {
     grid-template-columns: 1fr;

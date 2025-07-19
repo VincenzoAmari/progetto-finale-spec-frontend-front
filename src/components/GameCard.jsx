@@ -52,75 +52,26 @@ const GameCard = React.memo(
 
     if (loading) {
       return (
-        <div
-          className="game-card"
-          style={{
-            minHeight: 180,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <div className="game-card game-card-loading">
           <span>Caricamento...</span>
         </div>
       );
     }
     if (error) {
       return (
-        <div
-          className="game-card"
-          style={{
-            minHeight: 180,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "red",
-          }}
-        >
+        <div className="game-card game-card-error">
           <span>Errore: {error}</span>
         </div>
       );
     }
 
     return (
-      <div
-        className="game-card"
-        onClick={handleClick}
-        style={{
-          cursor: "pointer",
-          position: "relative",
-          width: "100%",
-          maxWidth: "540px",
-          aspectRatio: "16/11.26",
-          boxSizing: "border-box",
-          overflow: "hidden",
-          borderRadius: "12px",
-          background: "#181a20",
-          boxShadow: "0 2px 16px #000a",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "80%",
-            overflow: "hidden",
-            borderRadius: "12px 12px 0 0",
-            position: "relative",
-          }}
-        >
+      <div className="game-card game-card-custom" onClick={handleClick}>
+        <div className="game-card-image-wrapper">
           <img
             className="game-image"
             src={gameData.image}
             alt={gameData.title}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-              aspectRatio: "16/9",
-            }}
             onError={(e) => {
               if (!e.target.src.includes("via.placeholder.com")) {
                 e.target.onerror = null;
@@ -130,41 +81,13 @@ const GameCard = React.memo(
             }}
           />
         </div>
-        <div
-          className="game-info"
-          style={{
-            position: "relative",
-            height: "20%",
-            minHeight: 0,
-            padding: "12px 16px 8px 16px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 8,
-              width: "100%",
-            }}
-          >
+        <div className="game-info game-info-custom">
+          <div className="game-info-row">
             <span
+              className={`game-card-compare${compareSelected ? " active" : ""}`}
               onClick={(e) => {
                 e.stopPropagation();
                 if (onCompareToggle) onCompareToggle();
-              }}
-              style={{
-                fontSize: 28,
-                color: compareSelected ? "#00ffe7" : "#fff",
-                cursor: "pointer",
-                userSelect: "none",
-                textShadow: compareSelected
-                  ? "0 0 8px #00ffe7, 0 0 16px #00ffe7"
-                  : "0 0 8px #fff, 0 0 16px #fff",
-                marginRight: 12,
               }}
               title={
                 compareSelected
@@ -174,41 +97,12 @@ const GameCard = React.memo(
             >
               <FaBalanceScale />
             </span>
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h2
-                style={{
-                  margin: 0,
-                  fontSize: "1.7rem",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  color: "#fff",
-                }}
-              >
-                {gameData.title}
-              </h2>
+            <div className="game-info-title-wrapper">
+              <h2 className="game-info-title">{gameData.title}</h2>
             </div>
             <span
+              className={`game-card-fav${isFavorite ? " active" : ""}`}
               onClick={handleFavorite}
-              style={{
-                fontSize: 32,
-                color: isFavorite ? "#FFD600" : "#fff",
-                cursor: "pointer",
-                userSelect: "none",
-                textShadow: isFavorite
-                  ? "0 2px 8px #222"
-                  : "0 0 8px #fff, 0 0 16px #fff",
-                marginLeft: 12,
-              }}
               title={
                 isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"
               }
@@ -216,27 +110,9 @@ const GameCard = React.memo(
               {isFavorite ? "★" : "☆"}
             </span>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              marginTop: 4,
-            }}
-          >
-            <p style={{ margin: 0, fontSize: "1.15rem", color: "#bbb" }}>
-              {gameData.category}
-            </p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "1.15rem",
-                color: "#fff",
-                fontWeight: 600,
-                textAlign: "right",
-              }}
-            >
+          <div className="game-info-row-bottom">
+            <p className="game-info-category">{gameData.category}</p>
+            <p className="game-info-price">
               Prezzo: €
               {typeof gameData.price === "number"
                 ? gameData.price.toFixed(2)

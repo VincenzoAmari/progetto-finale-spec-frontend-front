@@ -74,8 +74,8 @@ const Home = () => {
         setSortBy={setSortBy}
         categories={categories}
       />
-      <div style={{ display: "flex", alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="home-main-row">
+        <div className="home-main-content">
           <FilterSortBar
             category={category}
             setCategory={setCategory}

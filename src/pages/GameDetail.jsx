@@ -1,3 +1,4 @@
+import FavoriteStar from "../components/FavoriteStar";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
@@ -92,7 +93,14 @@ const GameDetail = () => {
                     : "Aggiungi ai preferiti"
                 }
               >
-                {isFavorite(Number(game.id)) ? "★" : "☆"}
+                <FavoriteStar
+                  active={isFavorite(Number(game.id))}
+                  onClick={() => {
+                    isFavorite(Number(game.id))
+                      ? removeFavorite(Number(game.id))
+                      : addFavorite(Number(game.id));
+                  }}
+                />
               </span>
             </div>
             <p>

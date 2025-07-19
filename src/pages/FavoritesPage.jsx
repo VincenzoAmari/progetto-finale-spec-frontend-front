@@ -1,3 +1,4 @@
+import FavoriteStar from "../components/FavoriteStar";
 import React, { useEffect, useState } from "react";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
@@ -86,7 +87,14 @@ const FavoritesPage = () => {
                             : "Aggiungi ai preferiti"
                         }
                       >
-                        {isFavorite(Number(game.id)) ? "★" : "☆"}
+                        <FavoriteStar
+                          active={isFavorite(Number(game.id))}
+                          onClick={() => {
+                            isFavorite(Number(game.id))
+                              ? removeFavorite(Number(game.id))
+                              : addFavorite(Number(game.id));
+                          }}
+                        />
                       </span>
                     </div>
                     <p className="game-detail-category">

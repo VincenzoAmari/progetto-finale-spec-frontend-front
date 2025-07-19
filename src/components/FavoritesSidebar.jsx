@@ -1,3 +1,4 @@
+import FavoriteStar from "./FavoriteStar";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
@@ -41,7 +42,10 @@ const FavoritesSidebar = ({ games }) => {
                   removeFavorite(Number(game.id));
                 }}
               >
-                ★
+                <FavoriteStar
+                  active={isFavorite(game.id)}
+                  onClick={() => removeFavorite(game.id)}
+                />
               </button>
             </li>
           ))}

@@ -1,4 +1,11 @@
 .favorite-star {
+  outline: none;
+}
+.favorite-star:focus {
+  outline: none;
+  box-shadow: none;
+}
+.favorite-star {
   margin-left: 12px;
   color: #fff;
   font-size: 32px;

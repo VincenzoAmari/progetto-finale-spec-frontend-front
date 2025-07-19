@@ -1,5 +1,6 @@
 import React from "react";
 import GameCard from "./GameCard";
+import "./GameList.css";
 
 const GameList = ({
   games,

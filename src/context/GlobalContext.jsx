@@ -20,9 +20,9 @@ export function GlobalProvider({ children }) {
   }, [favorites]);
 
   const addFavorite = (id) => {
-    setFavorites((prev) =>
-      prev.includes(Number(id)) ? prev : [...prev, Number(id)]
-    );
+    const numId = Number(id);
+    if (!numId || isNaN(numId)) return;
+    setFavorites((prev) => (prev.includes(numId) ? prev : [...prev, numId]));
   };
 
   const removeFavorite = (id) => {

@@ -1,0 +1,50 @@
+.favorites-list-wrapper {
+  width: 100%;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+/* FavoritesPage: 2 colonne desktop, 1 colonna tablet/mobile */
+.favorites-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 40px;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 900px) {
+  .favorites-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card styling (riutilizza le classi esistenti se serve) */
+.favorites-list .game-detail {
+  width: 100%;
+  max-width: 700px;
+  background: #181a20;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #000a;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  cursor: pointer;
+}
+.favorites-list .game-detail-image {
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px 16px;
+  background: #23272f;
+}
+.favorites-list .game-detail-info {
+  flex: 1;
+  padding: 24px 32px;
+  text-align: left;
+}

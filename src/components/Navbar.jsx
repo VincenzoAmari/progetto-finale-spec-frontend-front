@@ -9,15 +9,17 @@ const Navbar = ({ search, setSearch }) => {
   const showSearch = location.pathname === "/";
 
   // Debounce locale per la barra di ricerca
-  const [localSearch, setLocalSearch] = useState(search);
+  const [localSearch, setLocalSearch] = useState(search || "");
   useEffect(() => {
-    setLocalSearch(search);
+    setLocalSearch(search || "");
   }, [search]);
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setSearch(localSearch);
-    }, 400);
-    return () => clearTimeout(handler);
+    if (typeof setSearch === "function") {
+      const handler = setTimeout(() => {
+        setSearch(localSearch);
+      }, 400);
+      return () => clearTimeout(handler);
+    }
   }, [localSearch, setSearch]);
 
   return (

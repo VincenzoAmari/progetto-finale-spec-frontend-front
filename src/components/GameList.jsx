@@ -10,6 +10,7 @@ const GameList = ({
   compareGames,
   handleCompareToggle,
   navigate,
+  tripleCompare,
 }) => {
   let sortedGames = [...games];
   sortedGames.sort((a, b) => {
@@ -45,6 +46,7 @@ const GameList = ({
             onClick={() => navigate(`/games/${game.id}`)}
             compareSelected={compareGames.includes(game.id)}
             onCompareToggle={() => handleCompareToggle(game.id)}
+            tripleCompare={tripleCompare}
           />
         ))
       ) : (

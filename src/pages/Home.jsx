@@ -14,6 +14,7 @@ const Home = () => {
   const [sortBy, setSortBy] = useState("az");
   const [compareGames, setCompareGames] = useState([]);
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [tripleCompare, setTripleCompare] = useState(false);
   const navigate = useNavigate();
   const { isFavorite, addFavorite, removeFavorite } = useGlobal();
 
@@ -47,10 +48,16 @@ const Home = () => {
   const handleCompareToggle = (id) => {
     setCompareGames((prev) => {
       if (prev.includes(id)) return prev.filter((gid) => gid !== id);
-      if (prev.length < 2) return [...prev, id];
+      const max = tripleCompare ? 3 : 2;
+      if (prev.length < max) return [...prev, id];
       return prev;
     });
   };
+
+  // Quando si attiva/disattiva la modalità tripla, azzera la selezione
+  React.useEffect(() => {
+    setCompareGames([]);
+  }, [tripleCompare]);
 
   const handleCloseCompare = () => setCompareGames([]);
 
@@ -75,6 +82,8 @@ const Home = () => {
             sortBy={sortBy}
             setSortBy={setSortBy}
             categories={categories}
+            tripleCompare={tripleCompare}
+            setTripleCompare={setTripleCompare}
           />
           <GameList
             games={filteredGames}
@@ -85,8 +94,11 @@ const Home = () => {
             compareGames={compareGames}
             handleCompareToggle={handleCompareToggle}
             navigate={navigate}
+            tripleCompare={tripleCompare}
           />
-          <CompareOverlay compared={compared} onClose={handleCloseCompare} />
+          {(tripleCompare ? compared.length === 3 : compared.length === 2) && (
+            <CompareOverlay compared={compared} onClose={handleCloseCompare} />
+          )}
         </div>
         <FavoritesSidebar
           games={games}

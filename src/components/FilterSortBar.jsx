@@ -3,12 +3,16 @@ import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
 import "./FilterSortBar.css";
 
+import { FaBalanceScale } from "react-icons/fa";
+
 const FilterSortBar = ({
   category,
   setCategory,
   sortBy,
   setSortBy,
   categories,
+  tripleCompare,
+  setTripleCompare,
 }) => (
   <div className="filter-sort-bar-sticky">
     <div
@@ -92,6 +96,29 @@ const FilterSortBar = ({
           ) : (
             <span style={{ fontWeight: 700 }}>Z</span>
           )}
+        </button>
+        <button
+          className={`sort-btn${tripleCompare ? " active" : ""}`}
+          onClick={() => setTripleCompare((prev) => !prev)}
+          title={
+            tripleCompare ? "Comparazione tripla attiva" : "Comparazione doppia"
+          }
+          style={{
+            background: tripleCompare ? "#ffd700" : "#23272f",
+            color: tripleCompare ? "#181c24" : "#00ffe7",
+            border: "1.5px solid #ffd700",
+            borderRadius: 8,
+            padding: "8px 12px",
+            fontSize: 18,
+            cursor: "pointer",
+            transition: "all 0.2s",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          <FaBalanceScale />
+          <span style={{ fontWeight: 700, marginLeft: 4 }}>X3</span>
         </button>
       </div>
     </div>

@@ -1,3 +1,64 @@
+/* Empty state styles */
+.compare-cards-empty {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-direction: column;
+}
+.compare-empty-main {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+.compare-empty-sub {
+  font-size: 1rem;
+  color: #00ffe7;
+}
+/* Loading state styles */
+.compare-cards-loading {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Error state styles */
+.compare-cards-error {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+}
+/* Row layout for compare cards */
+.compare-cards-row {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  gap: 32px;
+}
+.compare-cards-third {
+  margin-top: 32px;
+}
+/* Compare card image and info */
+.compare-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #00ffe7;
+  background: #222;
+  box-shadow: 0 2px 12px #00ffe733;
+}
+.compare-info {
+  padding: 18px 12px;
+  font-size: 1.1rem;
+}
+.compare-title {
+  margin-bottom: 0;
+  font-size: 2rem;
+  color: #00ffe7;
+}
 /* Scrollbar neon style */
 .compare-content::-webkit-scrollbar {
   width: 8px;

@@ -1,0 +1,19 @@
+/* Layout principale Home */
+.home-main-row {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+.home-main-col {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .home-main-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .home-main-col {
+    width: 100%;
+  }
+}

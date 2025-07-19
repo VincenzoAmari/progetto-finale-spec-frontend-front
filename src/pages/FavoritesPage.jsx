@@ -85,30 +85,29 @@ const FavoritesPage = () => {
                             ? "Rimuovi dai preferiti"
                             : "Aggiungi ai preferiti"
                         }
-                        onClickCapture={(e) => handleFavorite(e, game.id)}
                       >
                         {isFavorite(Number(game.id)) ? "★" : "☆"}
                       </span>
                     </div>
-                    <p>
+                    <p className="game-detail-category">
                       <strong>Categoria:</strong> {game.category}
                     </p>
-                    <p>
+                    <p className="game-detail-platform">
                       <strong>Piattaforma:</strong> {game.platform}
                     </p>
-                    <p>
+                    <p className="game-detail-developer">
                       <strong>Developer:</strong> {game.developer}
                     </p>
-                    <p>
+                    <p className="game-detail-year">
                       <strong>Anno:</strong> {game.releaseYear}
                     </p>
-                    <p>
+                    <p className="game-detail-rating">
                       <strong>Voto:</strong> {game.rating}
                     </p>
-                    <p>
+                    <p className="game-detail-price">
                       <strong>Prezzo:</strong> €{game.price}
                     </p>
-                    <p>
+                    <p className="game-detail-description">
                       <strong>Descrizione:</strong> {game.description}
                     </p>
                   </div>

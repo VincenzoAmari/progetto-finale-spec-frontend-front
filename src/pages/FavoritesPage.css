@@ -1,3 +1,93 @@
+/* Titolo pagina */
+.favorites-title {
+  font-size: 2rem;
+  color: #00ffe7;
+  text-align: center;
+  margin: 32px 0 24px 0;
+}
+
+/* Empty state */
+.favorites-empty {
+  color: #fff;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 48px;
+}
+
+/* Card info row */
+.game-detail-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.game-detail-info-title {
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-detail-fav {
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 12px;
+  user-select: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.game-detail-fav.active {
+  color: #ffd600;
+  text-shadow: 0 2px 8px #222;
+}
+.game-detail-category,
+.game-detail-platform,
+.game-detail-developer,
+.game-detail-year,
+.game-detail-rating,
+.game-detail-price,
+.game-detail-description {
+  font-size: 1rem;
+  color: #bbb;
+  margin: 2px 0;
+}
+.game-detail-price {
+  color: #fff;
+  font-weight: 600;
+}
+.game-detail-image {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 16/9;
+  height: auto;
+  object-fit: cover;
+  border-radius: 16px 0 0 16px;
+  background: #23272f;
+  display: block;
+}
+.game-detail {
+  width: 100%;
+  max-width: 540px;
+  background: #181a20;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #000a;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 180px;
+}
+.game-detail-info {
+  flex: 1;
+  padding: 16px 18px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .favorites-list-wrapper {
   width: 100%;
   max-width: 1500px;

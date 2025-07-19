@@ -1,13 +1,94 @@
+/* Navbar custom layout */
+.navbar-container {
+  display: flex;
+  align-items: center;
+    justify-content: space-between;
+  width: 100%;
+  gap: 0;
+  .navbar-logo {
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+  }
+  .navbar-logo-link {
+    font-size: 22px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  .navbar-logo-title {
+    font-family: "Orbitron", Arial, sans-serif;
+    color: #00ffe7;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar-search-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .navbar-search-container {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+  }
+  .navbar-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #00ffe7;
+    font-size: 18px;
+  }
+  .navbar-search-input {
+    min-width: 360px;
+    max-width: 1200px;
+    font-size: 17px;
+    background: #23272f;
+    color: #fff;
+    border: 1px solid #00ffe7;
+    border-radius: 6px;
+    padding: 0.5rem 1rem 0.5rem 34px;
+    text-align: center;
+  }
+  /* Centra il placeholder su tutti i browser moderni */
+  .navbar-search-input::placeholder {
+    text-align: center;
+    color: #bbb;
+  }
+}
+.navbar-favorites {
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.navbar-favorites-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.navbar-favorites-icon {
+  font-size: 28px;
+  color: #ffd600;
+  margin-left: 8px;
+  margin-right: 0;
+  display: inline-block;
+  transition: color 0.2s;
+}
 /* Navbar styles */
 .navbar {
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  width: 100vw;
   background: #181c24;
   padding: 16px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 0;
   color: #fff;
   z-index: 1000;
@@ -64,9 +145,11 @@
   .navbar h2 {
     font-size: 1.2rem;
   }
-  .navbar input {
+  .navbar-search-input {
     min-width: 0;
-    width: 100%;
+    width: 10vw;
+    max-width: 40px;
     font-size: 0.95rem;
+    margin-bottom: 4px;
   }
 }

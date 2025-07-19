@@ -8,84 +8,34 @@ const FavoritesSidebar = ({ games }) => {
   const { isFavorite, removeFavorite } = useGlobal();
   const favoriteGames = games.filter((g) => isFavorite(Number(g.id)));
   return (
-    <aside
-      className="favorites-sidebar"
-      style={{
-        width: 320,
-        minWidth: 220,
-        background: "#181c24",
-        borderLeft: "2px solid #00ffe7",
-        padding: "24px 12px",
-        position: "sticky",
-        top: 0,
-        height: "100vh",
-        overflowY: "auto",
-        boxShadow: "-2px 0 12px #00ffe733",
-        zIndex: 10,
-      }}
-    >
-      <h2
-        style={{
-          color: "#00ffe7",
-          marginBottom: 18,
-          fontSize: "1.4rem",
-          textAlign: "center",
-        }}
-      >
-        Preferiti
-      </h2>
+    <aside className="favorites-sidebar">
+      <h2 className="favorites-sidebar-title">Preferiti</h2>
       {favoriteGames.length === 0 ? (
-        <div style={{ color: "#fff", textAlign: "center", marginTop: 40 }}>
-          <p style={{ fontSize: "1.15rem", marginBottom: 8 }}>
+        <div className="favorites-sidebar-empty">
+          <p className="favorites-sidebar-empty-main">
             Nessun gioco nei preferiti.
           </p>
-          <p style={{ fontSize: "1rem", color: "#00ffe7" }}>
+          <p className="favorites-sidebar-empty-sub">
             Seleziona i tuoi preferiti!
           </p>
         </div>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul className="favorites-sidebar-list">
           {favoriteGames.map((game) => (
             <li
               key={game.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 18,
-                background: "#23272f",
-                borderRadius: 10,
-                padding: "8px 8px 8px 0",
-                boxShadow: "0 2px 8px #00ffe722",
-                cursor: "pointer",
-                transition: "background 0.2s",
-              }}
+              className="favorites-sidebar-item"
               onClick={() => navigate(`/games/${game.id}`)}
             >
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    color: "#fff",
-                    fontWeight: 600,
-                    fontSize: "1.05rem",
-                  }}
-                >
-                  {game.title}
-                </div>
-                <div style={{ color: "#00ffe7", fontSize: "0.95rem" }}>
+              <div className="favorites-sidebar-item-info">
+                <div className="favorites-sidebar-item-title">{game.title}</div>
+                <div className="favorites-sidebar-item-category">
                   {game.category}
                 </div>
               </div>
               <button
                 title="Rimuovi dai preferiti"
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#ffd700",
-                  fontSize: 22,
-                  cursor: "pointer",
-                  marginLeft: 4,
-                }}
+                className="favorites-sidebar-remove"
                 onClick={(e) => {
                   e.stopPropagation();
                   removeFavorite(Number(game.id));

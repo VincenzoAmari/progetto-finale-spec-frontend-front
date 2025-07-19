@@ -113,14 +113,8 @@ const CompareOverlay = ({ compared, onClose }) => {
                       }
                     }}
                   />
-                  <div
-                    className="game-detail-info compare-info"
-                  >
-                    <h1
-                      className="compare-title"
-                    >
-                      {game.title}
-                    </h1>
+                  <div className="game-detail-info compare-info">
+                    <h1 className="compare-title">{game.title}</h1>
                     <p>
                       <strong>Categoria:</strong> {game.category}
                     </p>
@@ -146,9 +140,7 @@ const CompareOverlay = ({ compared, onClose }) => {
                 </div>
               ))}
             </div>
-            <div
-              className="compare-cards compare-cards-row compare-cards-bottom"
-            >
+            <div className="compare-cards compare-cards-row compare-cards-bottom">
               <div className="compare-card" key={gamesData[2].id}>
                 <img
                   className="game-detail-image compare-image"
@@ -162,14 +154,8 @@ const CompareOverlay = ({ compared, onClose }) => {
                     }
                   }}
                 />
-                <div
-                  className="game-detail-info compare-info"
-                >
-                  <h1
-                    className="compare-title"
-                  >
-                    {gamesData[2].title}
-                  </h1>
+                <div className="game-detail-info compare-info">
+                  <h1 className="compare-title">{gamesData[2].title}</h1>
                   <p>
                     <strong>Categoria:</strong> {gamesData[2].category}
                   </p>
@@ -211,14 +197,8 @@ const CompareOverlay = ({ compared, onClose }) => {
                     }
                   }}
                 />
-                <div
-                  className="game-detail-info compare-info"
-                >
-                  <h1
-                    className="compare-title"
-                  >
-                    {game.title}
-                  </h1>
+                <div className="game-detail-info compare-info">
+                  <h1 className="compare-title">{game.title}</h1>
                   <p>
                     <strong>Categoria:</strong> {game.category}
                   </p>

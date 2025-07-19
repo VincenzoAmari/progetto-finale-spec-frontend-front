@@ -49,13 +49,16 @@
 }
 .game-detail-title-row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  justify-content: left;
   gap: 24px;
 }
 .game-detail-title {
   margin-bottom: 0;
   font-size: 3rem;
   color: #00ffe7;
+  display: flex;
+  align-items: baseline;
 }
 .game-detail-fav {
   font-size: 2.2rem;
@@ -64,6 +67,8 @@
   user-select: none;
   text-shadow: 0 2px 8px #222;
   margin-left: 16px;
+  display: flex;
+  align-items: baseline;
 }
 .game-detail-fav.active {
   color: #ffd600;

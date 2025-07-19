@@ -8,8 +8,8 @@ import { GlobalProvider } from "./context/GlobalContext";
 
 export default function App() {
   return (
-    <Router>
-      <GlobalProvider>
+    <GlobalProvider>
+      <Router>
         <div className="app">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -17,7 +17,7 @@ export default function App() {
             <Route path="/favorites" element={<FavoritesPage />} />
           </Routes>
         </div>
-      </GlobalProvider>
-    </Router>
+      </Router>
+    </GlobalProvider>
   );
 }

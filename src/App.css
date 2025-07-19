@@ -11,15 +11,6 @@
   width: 100%;
   min-height: 0;
 }
-/* Home page main row and content */
-.home-main-row {
-  display: flex;
-  align-items: flex-start;
-}
-.home-main-content {
-  flex: 1;
-  min-width: 0;
-}
 
 .home-section {
   flex: 1;

@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { FaBalanceScale } from "react-icons/fa";
 import "./GameCard.css";
+import FavoriteStar from "./FavoriteStar";
 
 const GameCard = React.memo(
   ({
@@ -197,24 +198,13 @@ const GameCard = React.memo(
                 {gameData.title}
               </h2>
             </div>
-            <span
-              onClick={handleFavorite}
-              style={{
-                fontSize: 32,
-                color: isFavorite ? "#FFD600" : "#fff",
-                cursor: "pointer",
-                userSelect: "none",
-                textShadow: isFavorite
-                  ? "0 2px 8px #222"
-                  : "0 0 8px #fff, 0 0 16px #fff",
-                marginLeft: 12,
+            <FavoriteStar
+              active={isFavorite}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleFavorite(e);
               }}
-              title={
-                isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"
-              }
-            >
-              {isFavorite ? "★" : "☆"}
-            </span>
+            />
           </div>
           <div
             style={{
@@ -248,5 +238,4 @@ const GameCard = React.memo(
     );
   }
 );
-
 export default GameCard;

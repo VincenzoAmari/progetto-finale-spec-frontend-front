@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { FaBalanceScale } from "react-icons/fa";
 import "./GameCard.css";
 import FavoriteStar from "./FavoriteStar";
+import CompareScale from "./CompareScale";
 
 const GameCard = React.memo(
   ({
@@ -152,29 +153,13 @@ const GameCard = React.memo(
               width: "100%",
             }}
           >
-            <span
+            <CompareScale
+              active={compareSelected}
               onClick={(e) => {
                 e.stopPropagation();
                 if (onCompareToggle) onCompareToggle();
               }}
-              style={{
-                fontSize: 28,
-                color: compareSelected ? "#00ffe7" : "#fff",
-                cursor: "pointer",
-                userSelect: "none",
-                textShadow: compareSelected
-                  ? "0 0 8px #00ffe7, 0 0 16px #00ffe7"
-                  : "0 0 8px #fff, 0 0 16px #fff",
-                marginRight: 12,
-              }}
-              title={
-                compareSelected
-                  ? "Rimuovi dalla comparazione"
-                  : "Confronta questo gioco"
-              }
-            >
-              <FaBalanceScale />
-            </span>
+            />
             <div
               style={{
                 flex: 1,

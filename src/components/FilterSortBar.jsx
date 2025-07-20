@@ -9,7 +9,6 @@ const FilterSortBar = ({
   categories,
   tripleCompare,
   setTripleCompare,
-  games,
   isFavorite,
   addFavorite,
   removeFavorite,
@@ -18,18 +17,38 @@ const FilterSortBar = ({
   navigate,
 }) => {
   const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
+  const [sortAlphaAsc, setSortAlphaAsc] = React.useState(false);
   const [fetchedGames, setFetchedGames] = React.useState([]);
 
-  // Funzione per ordinare i giochi per prezzo
+  // Funzione per ordinare i giochi
   const getSortedGames = () => {
     if (!fetchedGames || fetchedGames.length === 0) return [];
-    return [...fetchedGames].sort((a, b) => {
-      const priceA =
-        typeof a.price === "number" ? a.price : parseFloat(a.price);
-      const priceB =
-        typeof b.price === "number" ? b.price : parseFloat(b.price);
-      return sortPriceAsc ? priceA - priceB : priceB - priceA;
-    });
+    let arr = [...fetchedGames];
+    if (sortAlphaAsc) {
+      arr.sort((a, b) => {
+        if (!a.title || !b.title) return 0;
+        return a.title.localeCompare(b.title);
+      });
+    } else {
+      arr.sort((a, b) => {
+        const priceA =
+          typeof a.price === "number" ? a.price : parseFloat(a.price);
+        const priceB =
+          typeof b.price === "number" ? b.price : parseFloat(b.price);
+        return sortPriceAsc ? priceA - priceB : priceB - priceA;
+      });
+    }
+    return arr;
+  };
+
+  // Gestione click sort
+  const handleSortPriceClick = () => {
+    setSortPriceAsc((prev) => !prev);
+    setSortAlphaAsc(false);
+  };
+  const handleSortAlphaClick = () => {
+    setSortAlphaAsc((prev) => !prev);
+    setSortPriceAsc(false);
   };
 
   React.useEffect(() => {
@@ -78,32 +97,18 @@ const FilterSortBar = ({
             {/* Bottone toggle prezzo */}
             <button
               className={`sort-btn${sortPriceAsc ? "" : " active"}`}
-              onClick={() => {
-                setSortPriceAsc((prev) => {
-                  const nuovoOrdine = !prev;
-                  // Logga l'ordine delle carte dopo il sort
-                  const ordinati = [...games].sort((a, b) => {
-                    const priceA =
-                      typeof a.price === "number"
-                        ? a.price
-                        : parseFloat(a.price);
-                    const priceB =
-                      typeof b.price === "number"
-                        ? b.price
-                        : parseFloat(b.price);
-                    return nuovoOrdine ? priceA - priceB : priceB - priceA;
-                  });
-                  console.log(
-                    "Ordine carte per prezzo",
-                    nuovoOrdine ? "crescente" : "decrescente",
-                    ordinati.map((g) => ({ title: g.title, price: g.price }))
-                  );
-                  return nuovoOrdine;
-                });
-              }}
+              onClick={handleSortPriceClick}
               title={sortPriceAsc ? "Prezzo crescente" : "Prezzo decrescente"}
             >
               {sortPriceAsc ? "Prezzo ↑" : "Prezzo ↓"}
+            </button>
+            {/* Bottone sort alfabetico */}
+            <button
+              className={`sort-btn${sortAlphaAsc ? " active" : ""}`}
+              onClick={handleSortAlphaClick}
+              title={sortAlphaAsc ? "Ordina A-Z" : "Ordina Z-A"}
+            >
+              {sortAlphaAsc ? "A → Z" : "Z → A"}
             </button>
             {/* Triple compare */}
             <button

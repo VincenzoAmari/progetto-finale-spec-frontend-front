@@ -1,6 +1,4 @@
-import React, { useState, useMemo } from "react";
-import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { MdTextFields } from "react-icons/md";
+import React from "react";
 import "./FilterSortBar.css";
 import { FaBalanceScale } from "react-icons/fa";
 import GameList from "./GameList";
@@ -19,64 +17,45 @@ const FilterSortBar = ({
   handleCompareToggle,
   navigate,
 }) => {
-  const [sortType, setSortType] = useState("titleAsc");
-  const [fetchedGames, setFetchedGames] = useState([]);
+  const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
+  const [fetchedGames, setFetchedGames] = React.useState([]);
 
-  // Fetch giochi dal backend una sola volta
+  // Funzione per ordinare i giochi per prezzo
+  const getSortedGames = () => {
+    if (!fetchedGames || fetchedGames.length === 0) return [];
+    return [...fetchedGames].sort((a, b) => {
+      const priceA =
+        typeof a.price === "number" ? a.price : parseFloat(a.price);
+      const priceB =
+        typeof b.price === "number" ? b.price : parseFloat(b.price);
+      return sortPriceAsc ? priceA - priceB : priceB - priceA;
+    });
+  };
+
   React.useEffect(() => {
+    // Chiamata al backend per ottenere solo il campo price di ogni gioco
     fetch("http://localhost:3001/games")
       .then((res) => res.json())
       .then(async (data) => {
-        // Fetch dettagli per ogni gioco
-        const detailedGames = await Promise.all(
+        // Per ogni gioco, prendi il dettaglio e salva tutti i campi utili
+        const gamesWithDetails = await Promise.all(
           data.map(async (g) => {
             try {
               const res = await fetch(`http://localhost:3001/games/${g.id}`);
               if (!res.ok) return g;
               const detail = await res.json();
+              // Unisci tutti i campi della lista e del dettaglio
               return { ...g, ...detail.game };
             } catch {
               return g;
             }
           })
         );
-        console.log("Giochi dal backend (dettagliati):", detailedGames);
-        setFetchedGames(detailedGames);
+        setFetchedGames(gamesWithDetails);
+        console.log("LOG giochi dal backend:", gamesWithDetails);
       })
-      .catch(() => setFetchedGames([]));
+      .catch(() => console.log("Errore nel recupero dei prezzi"));
   }, []);
-
-  // Scegli la fonte dati: se games è vuoto usa quelli fetchati
-  const gamesToShow = games && games.length > 0 ? games : fetchedGames;
-
-  const sortedGames = useMemo(() => {
-    // Estrattore robusto del prezzo
-    const getPrice = (g) => {
-      if (!g) return 0;
-      // Se il prezzo è un numero
-      if (typeof g.price === "number") return g.price;
-      // Se il prezzo è una stringa numerica
-      if (typeof g.price === "string") {
-        const parsed = parseFloat(g.price.replace(",", "."));
-        return isNaN(parsed) ? 0 : parsed;
-      }
-      // Se il prezzo non esiste
-      return 0;
-    };
-
-    const sortFunctions = {
-      titleAsc: (a, b) => (a.title || "").localeCompare(b.title || ""),
-      titleDesc: (a, b) => (b.title || "").localeCompare(a.title || ""),
-      priceAsc: (a, b) => getPrice(a) - getPrice(b),
-      priceDesc: (a, b) => getPrice(b) - getPrice(a),
-    };
-
-    const result = [...gamesToShow];
-    const sortFn = sortFunctions[sortType] || sortFunctions.titleAsc;
-    result.sort(sortFn);
-    return result;
-  }, [gamesToShow, sortType]);
-
   return (
     <React.Fragment>
       <div className="filter-sort-bar-sticky">
@@ -96,43 +75,35 @@ const FilterSortBar = ({
             </select>
           </div>
           <div className="filter-sort-bar-btn-group">
-            {/* Toggle prezzo */}
+            {/* Bottone toggle prezzo */}
             <button
-              className={`sort-btn${
-                sortType === "priceAsc" || sortType === "priceDesc"
-                  ? " active"
-                  : ""
-              }`}
-              onClick={() =>
-                setSortType(sortType === "priceAsc" ? "priceDesc" : "priceAsc")
-              }
-              title={
-                sortType === "priceAsc"
-                  ? "Prezzo crescente"
-                  : "Prezzo decrescente"
-              }
+              className={`sort-btn${sortPriceAsc ? "" : " active"}`}
+              onClick={() => {
+                setSortPriceAsc((prev) => {
+                  const nuovoOrdine = !prev;
+                  // Logga l'ordine delle carte dopo il sort
+                  const ordinati = [...games].sort((a, b) => {
+                    const priceA =
+                      typeof a.price === "number"
+                        ? a.price
+                        : parseFloat(a.price);
+                    const priceB =
+                      typeof b.price === "number"
+                        ? b.price
+                        : parseFloat(b.price);
+                    return nuovoOrdine ? priceA - priceB : priceB - priceA;
+                  });
+                  console.log(
+                    "Ordine carte per prezzo",
+                    nuovoOrdine ? "crescente" : "decrescente",
+                    ordinati.map((g) => ({ title: g.title, price: g.price }))
+                  );
+                  return nuovoOrdine;
+                });
+              }}
+              title={sortPriceAsc ? "Prezzo crescente" : "Prezzo decrescente"}
             >
-              <FaEuroSign />
-              {sortType === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
-            </button>
-            {/* Toggle titolo */}
-            <button
-              className={`sort-btn${
-                sortType === "titleAsc" || sortType === "titleDesc"
-                  ? " active"
-                  : ""
-              }`}
-              onClick={() =>
-                setSortType(sortType === "titleAsc" ? "titleDesc" : "titleAsc")
-              }
-              title={sortType === "titleAsc" ? "Ordina A-Z" : "Ordina Z-A"}
-            >
-              <MdTextFields />
-              {sortType === "titleAsc" ? (
-                <span className="sort-btn-label">A</span>
-              ) : (
-                <span className="sort-btn-label">Z</span>
-              )}
+              {sortPriceAsc ? "Prezzo ↑" : "Prezzo ↓"}
             </button>
             {/* Triple compare */}
             <button
@@ -151,7 +122,7 @@ const FilterSortBar = ({
         </div>
       </div>
       <GameList
-        games={sortedGames}
+        games={getSortedGames()}
         isFavorite={isFavorite}
         addFavorite={addFavorite}
         removeFavorite={removeFavorite}

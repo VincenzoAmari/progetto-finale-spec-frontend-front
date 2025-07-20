@@ -11,7 +11,6 @@ const Home = () => {
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [sortBy, setSortBy] = useState("az");
   const [compareGames, setCompareGames] = useState([]);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [tripleCompare, setTripleCompare] = useState(false);
@@ -70,8 +69,6 @@ const Home = () => {
         setSearch={setSearch}
         category={category}
         setCategory={setCategory}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
         categories={categories}
       />
       <div style={{ display: "flex", alignItems: "flex-start" }}>
@@ -79,22 +76,16 @@ const Home = () => {
           <FilterSortBar
             category={category}
             setCategory={setCategory}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
             categories={categories}
             tripleCompare={tripleCompare}
             setTripleCompare={setTripleCompare}
-          />
-          <GameList
             games={filteredGames}
-            sortBy={sortBy}
             isFavorite={isFavorite}
             addFavorite={addFavorite}
             removeFavorite={removeFavorite}
             compareGames={compareGames}
             handleCompareToggle={handleCompareToggle}
             navigate={navigate}
-            tripleCompare={tripleCompare}
           />
           {(tripleCompare ? compared.length === 3 : compared.length === 2) && (
             <CompareOverlay compared={compared} onClose={handleCloseCompare} />

@@ -4,7 +4,6 @@ import "./GameList.css";
 
 const GameList = ({
   games,
-  sortBy,
   isFavorite,
   addFavorite,
   removeFavorite,
@@ -13,26 +12,12 @@ const GameList = ({
   navigate,
   tripleCompare,
 }) => {
-  let sortedGames = [...games];
-  sortedGames.sort((a, b) => {
-    const priceA = Number(
-      a.price ?? a.prezzo ?? (a.game && (a.game.price ?? a.game.prezzo)) ?? 0
-    );
-    const priceB = Number(
-      b.price ?? b.prezzo ?? (b.game && (b.game.price ?? b.game.prezzo)) ?? 0
-    );
-    if (sortBy === "priceAsc") return priceA - priceB;
-    if (sortBy === "priceDesc") return priceB - priceA;
-    if (sortBy === "za") return b.title.localeCompare(a.title);
-    return a.title.localeCompare(b.title);
-  });
-
   return (
     <div className="game-list">
-      {sortedGames.length > 0 ? (
-        sortedGames.map((game) => (
+      {games.length > 0 ? (
+        games.map((game) => (
           <GameCard
-            key={game.id + "-" + sortBy}
+            key={game.id}
             game={game}
             isFavorite={isFavorite(Number(game.id))}
             onFavoriteToggle={(e) => {

@@ -1,14 +1,7 @@
 .favorite-star {
-  outline: none;
-}
-.favorite-star:focus {
-  outline: none;
-  box-shadow: none;
-}
-.favorite-star {
   margin-left: 12px;
-  color: #fff;
   font-size: 32px;
+  color: #fff;
   cursor: pointer;
   user-select: none;
   transition: color 0.2s;
@@ -19,5 +12,6 @@
   text-shadow: 0 2px 8px #222;
 }
 .favorite-star:focus {
+  outline: none;
   box-shadow: 0 0 0 2px #ffd60044;
 }

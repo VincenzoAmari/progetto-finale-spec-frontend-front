@@ -13,18 +13,29 @@ const FavoritesPage = () => {
       setFavoriteGames([]);
       return;
     }
-    Promise.all(
-      favorites
-        .filter((id) => Number(id) && !isNaN(Number(id)))
-        .map((id) =>
-          fetch(`http://localhost:3001/games/${id}`)
-            .then((res) => (res.ok ? res.json() : null))
-            .then((data) => data && data.game)
-            .catch(() => null)
-        )
-    ).then((games) => {
-      setFavoriteGames(games.filter((g) => g));
-    });
+    const fetchFavorites = async () => {
+      try {
+        const games = await Promise.all(
+          favorites
+            .filter((id) => Number(id) && !isNaN(Number(id)))
+            .map(async (id) => {
+              try {
+                const res = await fetch(`http://localhost:3001/games/${id}`);
+                if (!res.ok) return null;
+                const data = await res.json();
+                return data && data.game;
+              } catch {
+                return null;
+              }
+            })
+        );
+        setFavoriteGames(games.filter((g) => g));
+      } catch (err) {
+        setFavoriteGames([]);
+        console.error("Errore nel fetch dei preferiti:", err);
+      }
+    };
+    fetchFavorites();
   }, [favorites]);
 
   return (

@@ -19,24 +19,25 @@ const GameCard = React.memo(
 
     // Fetch dati gioco se serve
     React.useEffect(() => {
-      if (game && game.id && (!game.title || !game.price)) {
-        setLoading(true);
-        fetch(`http://localhost:3001/games/${game.id}`)
-          .then((res) => {
+      const fetchGameData = async () => {
+        if (game && game.id && (!game.title || !game.price)) {
+          setLoading(true);
+          try {
+            const res = await fetch(`http://localhost:3001/games/${game.id}`);
             if (!res.ok) throw new Error("Gioco non trovato");
-            return res.json();
-          })
-          .then((data) => {
+            const data = await res.json();
             setGameData(data.game);
             setError(null);
-          })
-          .catch((err) => {
+          } catch (err) {
             setError(err.message);
-          })
-          .finally(() => setLoading(false));
-      } else {
-        setGameData(game);
-      }
+          } finally {
+            setLoading(false);
+          }
+        } else {
+          setGameData(game);
+        }
+      };
+      fetchGameData();
     }, [game]);
 
     // Memoizza il toggle preferiti

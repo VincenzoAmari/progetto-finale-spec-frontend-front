@@ -7,38 +7,39 @@ const CompareOverlay = ({ compared, onClose }) => {
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-    setError(null);
-    Promise.all(
-      compared.map((game) => {
-        if (game && game.id && (!game.title || !game.price)) {
-          return fetch(`http://localhost:3001/games/${game.id}`)
-            .then((res) => {
-              if (!res.ok) throw new Error("Gioco non trovato");
-              return res.json();
-            })
-            .then((data) => data.game)
-            .catch((err) => ({ error: err.message, id: game.id }));
-        } else {
-          return Promise.resolve(game);
-        }
-      })
-    )
-      .then((results) => {
-        if (isMounted) {
-          setGamesData(results);
-        }
-      })
-      .catch((err) => {
-        if (isMounted) setError(err.message);
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      });
-    return () => {
-      isMounted = false;
+    const fetchGamesData = async () => {
+      if (!compared || compared.length === 0) {
+        setGamesData([]);
+        return;
+      }
+      setLoading(true);
+      try {
+        const games = await Promise.all(
+          compared.map(async (g) => {
+            if (!g || !g.id) return null;
+            try {
+              const res = await fetch(`http://localhost:3001/games/${g.id}`);
+              if (!res.ok) return null;
+              const data = await res.json();
+              return data && data.game ? data.game : g;
+            } catch {
+              return g;
+            }
+          })
+        );
+        setGamesData(games.filter((g) => g));
+        setError(null);
+      } catch (err) {
+        setGamesData([]);
+        setError(
+          "Errore nel fetch dei dati di confronto: " + (err?.message || err)
+        );
+        console.error("Errore nel fetch dei dati di confronto:", err);
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchGamesData();
   }, [compared]);
 
   if (!compared || compared.length === 0) {

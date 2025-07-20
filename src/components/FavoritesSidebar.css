@@ -72,6 +72,19 @@
   color: #ff4d4d;
   cursor: pointer;
   margin-left: 12px;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.favorite-star {
+  font-size: 32px;
+  color: #ffd600;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 .favorites-sidebar h2 {
   font-size: 1.4rem;

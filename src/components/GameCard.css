@@ -126,8 +126,8 @@
 .game-info-price {
   margin: 0;
   font-size: 1.15rem;
-  color: #fff;
-  font-weight: 600;
+  color: #ffd600 !important;
+  font-weight: 700;
   text-align: right;
 }
 .game-card {

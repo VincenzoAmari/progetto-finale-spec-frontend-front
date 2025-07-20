@@ -88,7 +88,6 @@
 }
 .game-detail-image {
   width: 320px;
-  height: 200px;
   object-fit: cover;
   border-radius: 14px;
   border: 2px solid #00ffe7;

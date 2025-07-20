@@ -84,11 +84,15 @@ const GameCard = React.memo(
           />
         </div>
         <div className="game-info">
-          <div
-            className="game-info-title-row"
-            style={{ justifyContent: "space-between", gap: 0 }}
-          >
-            <div className="game-info-title" style={{ textAlign: "left" }}>
+          <div className="game-info-title-row">
+            <CompareScale
+              active={compareSelected}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onCompareToggle) onCompareToggle();
+              }}
+            />
+            <div className="game-info-title game-info-title-center">
               <h2>{gameData.title}</h2>
             </div>
             <FavoriteStar

@@ -80,72 +80,74 @@ const FilterSortBar = ({
   return (
     <React.Fragment>
       <div className="filter-sort-bar-sticky">
-        <div className="filter-sort-bar-row">
-          <select
-            className="form-select filter-sort-bar-select"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Tutti i generi</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="filter-sort-bar-btn-group">
-          {/* Toggle prezzo */}
-          <button
-            className={`sort-btn${
-              sortType === "priceAsc" || sortType === "priceDesc"
-                ? " active"
-                : ""
-            }`}
-            onClick={() =>
-              setSortType(sortType === "priceAsc" ? "priceDesc" : "priceAsc")
-            }
-            title={
-              sortType === "priceAsc"
-                ? "Prezzo crescente"
-                : "Prezzo decrescente"
-            }
-          >
-            <FaEuroSign />
-            {sortType === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
-          </button>
-          {/* Toggle titolo */}
-          <button
-            className={`sort-btn${
-              sortType === "titleAsc" || sortType === "titleDesc"
-                ? " active"
-                : ""
-            }`}
-            onClick={() =>
-              setSortType(sortType === "titleAsc" ? "titleDesc" : "titleAsc")
-            }
-            title={sortType === "titleAsc" ? "Ordina A-Z" : "Ordina Z-A"}
-          >
-            <MdTextFields />
-            {sortType === "titleAsc" ? (
-              <span className="sort-btn-label">A</span>
-            ) : (
-              <span className="sort-btn-label">Z</span>
-            )}
-          </button>
-          {/* Triple compare */}
-          <button
-            className={`sort-btn triple-btn${tripleCompare ? " active" : ""}`}
-            onClick={() => setTripleCompare((prev) => !prev)}
-            title={
-              tripleCompare
-                ? "Comparazione tripla attiva"
-                : "Comparazione doppia"
-            }
-          >
-            <FaBalanceScale />
-            <span className="sort-btn-label-x3">X3</span>
-          </button>
+        <div className="filter-sort-bar-flex">
+          <div className="filter-sort-bar-select-wrapper">
+            <select
+              className="form-select filter-sort-bar-select"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Tutti i generi</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="filter-sort-bar-btn-group">
+            {/* Toggle prezzo */}
+            <button
+              className={`sort-btn${
+                sortType === "priceAsc" || sortType === "priceDesc"
+                  ? " active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSortType(sortType === "priceAsc" ? "priceDesc" : "priceAsc")
+              }
+              title={
+                sortType === "priceAsc"
+                  ? "Prezzo crescente"
+                  : "Prezzo decrescente"
+              }
+            >
+              <FaEuroSign />
+              {sortType === "priceAsc" ? <FaArrowUp /> : <FaArrowDown />}
+            </button>
+            {/* Toggle titolo */}
+            <button
+              className={`sort-btn${
+                sortType === "titleAsc" || sortType === "titleDesc"
+                  ? " active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSortType(sortType === "titleAsc" ? "titleDesc" : "titleAsc")
+              }
+              title={sortType === "titleAsc" ? "Ordina A-Z" : "Ordina Z-A"}
+            >
+              <MdTextFields />
+              {sortType === "titleAsc" ? (
+                <span className="sort-btn-label">A</span>
+              ) : (
+                <span className="sort-btn-label">Z</span>
+              )}
+            </button>
+            {/* Triple compare */}
+            <button
+              className={`sort-btn triple-btn${tripleCompare ? " active" : ""}`}
+              onClick={() => setTripleCompare((prev) => !prev)}
+              title={
+                tripleCompare
+                  ? "Comparazione tripla attiva"
+                  : "Comparazione doppia"
+              }
+            >
+              <FaBalanceScale />
+              <span className="sort-btn-label-x3">X3</span>
+            </button>
+          </div>
         </div>
       </div>
       <GameList

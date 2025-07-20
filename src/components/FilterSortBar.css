@@ -1,3 +1,53 @@
+/* Layout flex con space-between */
+.filter-sort-bar-flex {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+.filter-sort-bar-select-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .filter-sort-bar-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .filter-sort-bar-select-wrapper {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .filter-sort-bar-btn-group {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    flex-direction: row;
+    gap: 8px;
+  }
+}
+@media (min-width: 700px) {
+  .filter-sort-bar-flex {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 24px;
+  }
+  .filter-sort-bar-select-wrapper {
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
+  .filter-sort-bar-btn-group {
+    justify-content: flex-end;
+    margin-top: 0;
+    flex-direction: row;
+    gap: 8px;
+  }
+}
 /* Nuove classi per la struttura senza inline style */
 .filter-sort-bar-row {
   display: flex;

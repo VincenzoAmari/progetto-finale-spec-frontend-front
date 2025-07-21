@@ -3,7 +3,7 @@
   width: 320px;
   min-width: 220px;
   background: linear-gradient(135deg, #23272f 60%, #181c24 100%);
-  border-radius: 18px;
+  border-radius: 0 0 18px 18px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   padding: 24px 18px 18px 18px;
   color: #fff;
@@ -12,6 +12,9 @@
   align-items: flex-start;
   gap: 18px;
   transition: width 0.3s, min-width 0.3s, padding 0.3s;
+  position: sticky;
+  top: 76px;
+  z-index: 1002;
 }
 .favorites-sidebar-title {
   font-size: 1.4rem;

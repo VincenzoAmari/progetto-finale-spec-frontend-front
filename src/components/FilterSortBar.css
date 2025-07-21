@@ -13,10 +13,9 @@
 }
 /* Freccia dentro il select */
 .select-chevron {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%) rotate(0deg);
+  position: relative;
+  right: 30px;
+  transform: rotate(0deg);
   color: #00ffe7;
   font-size: 1.2em;
   pointer-events: none;

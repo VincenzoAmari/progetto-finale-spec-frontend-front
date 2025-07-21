@@ -204,6 +204,31 @@
   padding: 0;
 }
 @media (max-width: 700px) {
+  .navbar-favorites {
+    min-width: 56px;
+    max-width: 70px;
+    padding-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    z-index: 10;
+  }
+  .navbar-favorites-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 40px;
+    height: 44px;
+  }
+  .navbar-favorites-icon {
+    font-size: 2.1rem;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   @media (max-width: 480px) {
     /* Inserisci qui eventuali regole specifiche per mobile */
   }

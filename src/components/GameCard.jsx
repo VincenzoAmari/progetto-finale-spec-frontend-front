@@ -4,20 +4,22 @@ import "./GameCard.css";
 import FavoriteStar from "./FavoriteStar";
 import CompareScale from "./CompareScale";
 
+// GameCard: mostra le informazioni di un singolo gioco, con funzioni per preferiti e confronto
 const GameCard = React.memo(
   ({
-    game,
-    isFavorite,
-    onFavoriteToggle,
-    onClick,
-    compareSelected,
-    onCompareToggle,
+    game, // Oggetto gioco da visualizzare
+    isFavorite, // Booleano: se il gioco è nei preferiti
+    onFavoriteToggle, // Funzione per toggle preferito
+    onClick, // Funzione per click sulla card
+    compareSelected, // Booleano: se il gioco è selezionato per il confronto
+    onCompareToggle, // Funzione per toggle confronto
   }) => {
+    // Stato locale per i dati del gioco (può essere aggiornato da fetch)
     const [gameData, setGameData] = React.useState(game);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
 
-    // Fetch dati gioco se serve
+    // Effettua fetch dei dati completi del gioco se mancano titolo o prezzo
     React.useEffect(() => {
       const fetchGameData = async () => {
         if (game && game.id && (!game.title || !game.price)) {
@@ -40,7 +42,7 @@ const GameCard = React.memo(
       fetchGameData();
     }, [game]);
 
-    // Memoizza il toggle preferiti
+    // Gestisce il click sulla stella preferito (usa useCallback per performance)
     const handleFavorite = useCallback(
       (e) => {
         if (onFavoriteToggle) onFavoriteToggle(e);
@@ -48,11 +50,12 @@ const GameCard = React.memo(
       [onFavoriteToggle]
     );
 
-    // Memoizza il click
+    // Gestisce il click sulla card (usa useCallback per performance)
     const handleClick = useCallback(() => {
       if (onClick) onClick();
     }, [onClick]);
 
+    // Stato di caricamento
     if (loading) {
       return (
         <div className="game-card game-card-loading">
@@ -60,6 +63,8 @@ const GameCard = React.memo(
         </div>
       );
     }
+
+    // Stato di errore
     if (error) {
       return (
         <div className="game-card game-card-error">
@@ -68,8 +73,10 @@ const GameCard = React.memo(
       );
     }
 
+    // Render principale della card gioco
     return (
       <div className="game-card" onClick={handleClick}>
+        {/* Immagine del gioco */}
         <div className="game-card-image-wrapper">
           <img
             className="game-image"
@@ -84,8 +91,10 @@ const GameCard = React.memo(
             }}
           />
         </div>
+        {/* Info principali: titolo, confronto, preferito */}
         <div className="game-info">
           <div className="game-info-title-row">
+            {/* Icona confronto (bilancia) */}
             <CompareScale
               active={compareSelected}
               onClick={(e) => {
@@ -93,9 +102,11 @@ const GameCard = React.memo(
                 if (onCompareToggle) onCompareToggle();
               }}
             />
+            {/* Titolo */}
             <div className="game-info-title game-info-title-center">
               <h2 className="game-title-h2">{gameData.title}</h2>
             </div>
+            {/* Icona preferito (stella) */}
             <FavoriteStar
               active={isFavorite}
               onClick={(e) => {
@@ -104,6 +115,7 @@ const GameCard = React.memo(
               }}
             />
           </div>
+          {/* Categoria e prezzo */}
           <div className="game-info-details">
             <p className="game-info-category">{gameData.category}</p>
             <p className="game-info-price">
@@ -118,4 +130,5 @@ const GameCard = React.memo(
     );
   }
 );
+
 export default GameCard;

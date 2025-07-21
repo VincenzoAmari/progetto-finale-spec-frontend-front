@@ -1,12 +1,16 @@
+// Import principali
 import React from "react";
 import "./CardFavourites.css";
 import FavoriteStar from "./FavoriteStar";
 
+// CardFavourites: mostra i dettagli di un gioco preferito
 const CardFavourites = ({ game, onRemove }) => {
+  // Stato locale per i dati del gioco, caricamento ed errori
   const [gameData, setGameData] = React.useState(game);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
+  // Effetto: aggiorna i dati del gioco se mancano alcune info
   React.useEffect(() => {
     const fetchGameData = async () => {
       if (game && game.id && (!game.title || !game.price)) {
@@ -29,12 +33,15 @@ const CardFavourites = ({ game, onRemove }) => {
     fetchGameData();
   }, [game]);
 
+  // Gestione stati: nessun dato, caricamento o errore
   if (!gameData) return null;
   if (loading) return <div className="favourites-card">Caricamento...</div>;
   if (error) return <div className="favourites-card">Errore: {error}</div>;
 
+  // Render della card con immagine, titolo, stella preferiti e dettagli gioco
   return (
     <div className="favourites-card">
+      {/* Immagine del gioco */}
       <div className="favourites-card-image-wrapper">
         <img
           src={
@@ -50,6 +57,7 @@ const CardFavourites = ({ game, onRemove }) => {
           <div className="favourites-info-title">
             <h2>{gameData.title}</h2>
           </div>
+          {/* Stella per rimuovere dai preferiti */}
           <FavoriteStar
             active={true}
             onClick={() => onRemove(gameData.id)}
@@ -61,7 +69,7 @@ const CardFavourites = ({ game, onRemove }) => {
           style={{ position: "relative", width: "100%" }}
         >
           <div className="favourites-info-column">
-            {/* Titolo e URL immagine rimossi dalle info, ma l'immagine rimane sopra */}
+            {/* Info aggiuntive sul gioco */}
             {gameData.category && (
               <p className="favourites-info-category">
                 Categoria: {gameData.category}
@@ -116,6 +124,7 @@ const CardFavourites = ({ game, onRemove }) => {
                 <p className="favourites-info-description" style={{ flex: 1 }}>
                   Descrizione: {gameData.description}
                 </p>
+                {/* Prezzo del gioco */}
                 {gameData.price !== undefined && (
                   <span className="favourites-info-price">
                     €
@@ -133,4 +142,5 @@ const CardFavourites = ({ game, onRemove }) => {
   );
 };
 
+// Esporta il componente
 export default CardFavourites;

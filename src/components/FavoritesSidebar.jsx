@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import "./FavoritesSidebar.css";
 
+// Barra laterale che mostra i giochi preferiti
 const FavoritesSidebar = ({ games }) => {
   const navigate = useNavigate();
   const { isFavorite, removeFavorite } = useGlobal();
+  // Filtra solo i giochi che sono nei preferiti
   const favoriteGames = games.filter((g) => isFavorite(Number(g.id)));
+  // Render della sidebar preferiti
   return (
     <aside className="favorites-sidebar">
       <h2 className="favorites-sidebar-title">Preferiti</h2>
@@ -34,6 +37,7 @@ const FavoritesSidebar = ({ games }) => {
                   {game.category}
                 </div>
               </div>
+              {/* Bottone per rimuovere dai preferiti */}
               <button
                 title="Rimuovi dai preferiti"
                 className="favorites-sidebar-remove"

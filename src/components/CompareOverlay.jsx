@@ -1,11 +1,14 @@
 import React from "react";
 import "./CompareOverlay.css";
 
+// CompareOverlay: mostra un overlay per confrontare più giochi selezionati
 const CompareOverlay = ({ compared, onClose }) => {
+  // Stato locale per i dati dei giochi da confrontare
   const [gamesData, setGamesData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
+  // Effettua fetch dei dati completi dei giochi selezionati per il confronto
   React.useEffect(() => {
     const fetchGamesData = async () => {
       if (!compared || compared.length === 0) {
@@ -20,18 +23,13 @@ const CompareOverlay = ({ compared, onClose }) => {
             try {
               const res = await fetch(`http://localhost:3001/games/${g.id}`);
               if (!res.ok) {
-                console.warn("Risposta non ok per gioco:", g.id, res.status);
+                // Se la fetch fallisce, ritorna l'oggetto base
                 return null;
               }
               const data = await res.json();
-              console.log("Dati gioco ricevuti per confronto:", data);
               return data && data.game ? data.game : g;
-            } catch (fetchErr) {
-              console.error(
-                "Errore fetch gioco per confronto:",
-                g.id,
-                fetchErr
-              );
+            } catch {
+              // In caso di errore, ritorna l'oggetto base
               return g;
             }
           })
@@ -43,7 +41,6 @@ const CompareOverlay = ({ compared, onClose }) => {
         setError(
           "Errore nel fetch dei dati di confronto: " + (err?.message || err)
         );
-        console.error("Errore nel fetch dei dati di confronto:", err);
       } finally {
         setLoading(false);
       }
@@ -51,9 +48,10 @@ const CompareOverlay = ({ compared, onClose }) => {
     fetchGamesData();
   }, [compared]);
 
-  // Funzione per restituire i giochi nell'ordine originale
+  // Restituisce i giochi nell'ordine originale
   const getSortedGames = () => [...gamesData];
 
+  // Nessun gioco selezionato
   if (!compared || compared.length === 0) {
     return (
       <div className="compare-overlay">
@@ -73,6 +71,7 @@ const CompareOverlay = ({ compared, onClose }) => {
       </div>
     );
   }
+  // Stato di errore
   if (error) {
     return (
       <div className="compare-overlay">
@@ -87,6 +86,7 @@ const CompareOverlay = ({ compared, onClose }) => {
       </div>
     );
   }
+  // Stato di caricamento
   if (loading) {
     return (
       <div className="compare-overlay">
@@ -102,6 +102,7 @@ const CompareOverlay = ({ compared, onClose }) => {
     );
   }
 
+  // Render principale: mostra i giochi da confrontare
   return (
     <div className="compare-overlay">
       <div className="compare-content">
@@ -117,7 +118,7 @@ const CompareOverlay = ({ compared, onClose }) => {
             justifyContent: "center",
           }}
         ></div>
-        {/* Bottoni sort rimossi per richiesta */}
+        {/* Se sono selezionati 3 giochi, mostra layout 2+1 */}
         {gamesData.length === 3 ? (
           <>
             <div className="compare-cards compare-cards-row">
@@ -125,6 +126,7 @@ const CompareOverlay = ({ compared, onClose }) => {
                 .slice(0, 2)
                 .map((game) => (
                   <div className="compare-card" key={game.id}>
+                    {/* Immagine e dettagli gioco */}
                     <img
                       className="game-detail-image compare-image"
                       src={game.image}
@@ -206,6 +208,7 @@ const CompareOverlay = ({ compared, onClose }) => {
             </div>
           </>
         ) : (
+          // Layout per 2 giochi o meno
           <div className="compare-cards compare-cards-row">
             {getSortedGames().map((game) => (
               <div className="compare-card" key={game.id}>

@@ -9,28 +9,28 @@ import {
 } from "react-icons/fa";
 import GameList from "./GameList";
 
+// FilterSortBar: barra per filtrare, ordinare e attivare la modalità confronto giochi
 const FilterSortBar = ({
-  category,
-  setCategory,
-  categories,
-  tripleCompare,
-  setTripleCompare,
-  isFavorite,
-  addFavorite,
-  removeFavorite,
-  compareGames,
-  handleCompareToggle,
-  navigate,
+  category, // Categoria selezionata
+  setCategory, // Funzione per cambiare categoria
+  categories, // Array di tutte le categorie
+  tripleCompare, // Booleano: se la modalità confronto triplo è attiva
+  setTripleCompare, // Funzione per attivare/disattivare confronto triplo
+  isFavorite, // Funzione per sapere se un gioco è nei preferiti
+  addFavorite, // Funzione per aggiungere ai preferiti
+  removeFavorite, // Funzione per rimuovere dai preferiti
+  compareGames, // Array di id giochi selezionati per confronto
+  handleCompareToggle, // Funzione per toggle confronto
+  navigate, // Funzione di navigazione (router)
 }) => {
   const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
   const [sortAlphaAsc, setSortAlphaAsc] = React.useState(true);
   const [fetchedGames, setFetchedGames] = React.useState([]);
   const [selectOpen, setSelectOpen] = React.useState(false);
 
-  // Funzione per filtrare e ordinare i giochi
+  // Filtra e ordina i giochi in base a categoria e sort selezionato
   const getSortedGames = () => {
     if (!fetchedGames || fetchedGames.length === 0) return [];
-    // Filtra per categoria se selezionata
     let arr = category
       ? fetchedGames.filter((g) => g.category === category)
       : [...fetchedGames];
@@ -51,29 +51,29 @@ const FilterSortBar = ({
     return arr;
   };
 
-  // Gestione click sort
+  // Gestione click sort prezzo
   const handleSortPriceClick = () => {
     setSortPriceAsc((prev) => !prev);
     setSortAlphaAsc(false);
   };
+  // Gestione click sort alfabetico
   const handleSortAlphaClick = () => {
     setSortAlphaAsc((prev) => !prev);
     setSortPriceAsc(false);
   };
 
+  // Effetto: carica i giochi dal backend e unisce dettagli
   React.useEffect(() => {
-    // Chiamata al backend per ottenere solo il campo price di ogni gioco
     fetch("http://localhost:3001/games")
       .then((res) => res.json())
       .then(async (data) => {
-        // Per ogni gioco, prendi il dettaglio e salva tutti i campi utili
         const gamesWithDetails = await Promise.all(
           data.map(async (g) => {
             try {
               const res = await fetch(`http://localhost:3001/games/${g.id}`);
               if (!res.ok) return g;
               const detail = await res.json();
-              // Unisci tutti i campi della lista e del dettaglio
+
               return { ...g, ...detail.game };
             } catch {
               return g;
@@ -81,14 +81,16 @@ const FilterSortBar = ({
           })
         );
         setFetchedGames(gamesWithDetails);
-        console.log("LOG giochi dal backend:", gamesWithDetails);
       })
-      .catch(() => console.log("Errore nel recupero dei prezzi"));
+      .catch(() => {});
   }, []);
+
+  // Render della barra filtri e della lista giochi
   return (
     <React.Fragment>
       <div className="filter-sort-bar-sticky">
         <div className="filter-sort-bar-flex">
+          {/* Select categoria */}
           <div
             className="filter-sort-bar-select-wrapper"
             style={{
@@ -104,7 +106,6 @@ const FilterSortBar = ({
               onFocus={() => setSelectOpen(true)}
               onBlur={() => setSelectOpen(false)}
               onClick={() => {
-                // Se la tendina è già aperta, chiudila, altrimenti aprila
                 setSelectOpen((prev) => !prev);
               }}
             >
@@ -119,6 +120,7 @@ const FilterSortBar = ({
               <FaChevronDown />
             </span>
           </div>
+          {/* Bottoni ordinamento e confronto */}
           <div className="filter-sort-bar-btn-group">
             {/* Bottone toggle prezzo */}
             <button
@@ -179,6 +181,7 @@ const FilterSortBar = ({
           </div>
         </div>
       </div>
+      {/* Lista giochi filtrata e ordinata */}
       <GameList
         games={getSortedGames()}
         isFavorite={isFavorite}

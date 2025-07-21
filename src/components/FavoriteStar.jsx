@@ -1,6 +1,7 @@
 import React from "react";
 import "./FavoriteStar.css";
 
+// FavoriteStar: icona stella per aggiungere/rimuovere un gioco dai preferiti
 const FavoriteStar = ({ active, onClick, title }) => (
   <span
     className={`favorite-star${active ? " active" : ""}`}

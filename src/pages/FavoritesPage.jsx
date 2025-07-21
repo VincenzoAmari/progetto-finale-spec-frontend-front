@@ -4,10 +4,12 @@ import Navbar from "../components/Navbar";
 import { useGlobal } from "../context/GlobalContext";
 import CardFavourites from "../components/CardFavourites";
 
+// Pagina preferiti: mostra tutti i giochi aggiunti ai preferiti
 const FavoritesPage = () => {
   const { favorites, removeFavorite } = useGlobal();
   const [favoriteGames, setFavoriteGames] = useState([]);
 
+  // Carica i dati dei giochi preferiti dal backend
   useEffect(() => {
     if (favorites.length === 0) {
       setFavoriteGames([]);
@@ -30,14 +32,14 @@ const FavoritesPage = () => {
             })
         );
         setFavoriteGames(games.filter((g) => g));
-      } catch (err) {
+      } catch {
         setFavoriteGames([]);
-        console.error("Errore nel fetch dei preferiti:", err);
       }
     };
     fetchFavorites();
   }, [favorites]);
 
+  // Render della pagina preferiti
   return (
     <>
       <Navbar />

@@ -5,14 +5,16 @@ import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
 import "./GameDetail.css";
 
+// Pagina dettaglio gioco: mostra tutte le info di un singolo gioco
 const GameDetail = () => {
   const { id } = useParams();
-  const [game, setGame] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const loggedRef = useRef(false);
+  const [game, setGame] = useState(null); // Dati gioco
+  const [loading, setLoading] = useState(true); // Stato caricamento
+  const [error, setError] = useState(null); // Stato errore
+  const loggedRef = useRef(false); // Per evitare log multipli
   const { isFavorite, addFavorite, removeFavorite } = useGlobal();
 
+  // Carica i dati del gioco dal backend
   useEffect(() => {
     setLoading(true);
     fetch(`http://localhost:3001/games/${id}`)
@@ -24,7 +26,6 @@ const GameDetail = () => {
         setGame(data.game);
         setLoading(false);
         if (!loggedRef.current) {
-          console.log("DETTAGLIO GAME:", data.game);
           loggedRef.current = true;
         }
       })
@@ -34,6 +35,7 @@ const GameDetail = () => {
       });
   }, [id]);
 
+  // Stato di caricamento
   if (loading)
     return (
       <>
@@ -41,6 +43,7 @@ const GameDetail = () => {
         <div className="game-detail">Caricamento...</div>
       </>
     );
+  // Stato di errore
   if (error)
     return (
       <>
@@ -50,6 +53,7 @@ const GameDetail = () => {
     );
   if (!game) return null;
 
+  // Gestisce il click sulla stella preferito
   const handleFavorite = (e) => {
     e.stopPropagation();
     const numId = Number(game.id);
@@ -60,11 +64,13 @@ const GameDetail = () => {
     }
   };
 
+  // Render della pagina dettaglio gioco
   return (
     <>
       <Navbar />
       <div className="game-detail-bg">
         <div className="game-detail game-detail-vertical">
+          {/* Immagine grande */}
           <div className="game-detail-image-wrapper">
             <img
               className="game-detail-image-large"
@@ -79,9 +85,11 @@ const GameDetail = () => {
               }}
             />
           </div>
+          {/* Info dettagliate */}
           <div className="game-detail-info game-detail-info-large">
             <div className="game-detail-title-row">
               <h1 className="game-detail-title">{game.title}</h1>
+              {/* Stella preferito */}
               <span
                 className={`game-detail-fav${
                   isFavorite(Number(game.id)) ? " active" : ""

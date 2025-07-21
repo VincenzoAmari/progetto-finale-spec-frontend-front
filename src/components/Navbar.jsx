@@ -3,12 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "./Navbar.css";
 
+// Navbar: barra di navigazione principale dell'app
 const Navbar = ({ search, setSearch }) => {
   const location = useLocation();
 
+  // Mostra la barra di ricerca solo nella home
   const showSearch = location.pathname === "/";
 
-  // Debounce locale per la barra di ricerca
+  // Stato locale per la barra di ricerca (con debounce)
   const [localSearch, setLocalSearch] = useState(search || "");
   useEffect(() => {
     setLocalSearch(search || "");
@@ -22,6 +24,7 @@ const Navbar = ({ search, setSearch }) => {
     }
   }, [localSearch, setSearch]);
 
+  // Render della navbar
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -31,6 +34,7 @@ const Navbar = ({ search, setSearch }) => {
           </Link>
         </div>
 
+        {/* Barra di ricerca visibile solo in home */}
         {showSearch && (
           <div className="navbar-search-wrapper">
             <div className="navbar-search-container">
@@ -46,6 +50,7 @@ const Navbar = ({ search, setSearch }) => {
           </div>
         )}
 
+        {/* Link ai preferiti */}
         <div className="navbar-favorites">
           <Link to="/favorites" className="navbar-favorites-link">
             <span className="navbar-favorites-icon" aria-label="Preferiti">

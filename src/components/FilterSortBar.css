@@ -9,6 +9,24 @@
 .filter-sort-bar-select-wrapper {
   display: flex;
   align-items: center;
+  position: relative;
+}
+.select-chevron {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  color: #00ffe7;
+  font-size: 1.2em;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.4, 2, 0.6, 1);
+  z-index: 2;
+}
+.select-chevron.open {
+  transform: translateY(-50%) rotate(180deg);
+}
+.filter-sort-bar-select {
+  padding-right: 38px;
 }
 
 @media (max-width: 700px) {
@@ -59,6 +77,26 @@
 .filter-sort-bar-select {
   max-width: 180px;
   min-width: 100px;
+  background: #23272f;
+  color: #00ffe7;
+  border: 2px solid #00ffe7;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1.1rem;
+  font-family: "Orbitron", "Arial", sans-serif;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: 0 2px 12px #00ffe722;
+}
+.filter-sort-bar-select:focus {
+  border: 2px solid #00ffe7;
+  box-shadow: 0 0 0 2px #00ffe799, 0 2px 12px #00ffe744;
+  background: #181c24;
+  color: #00ffe7;
+}
+.filter-sort-bar-select option {
+  background: #181c24;
+  color: #00ffe7;
 }
 .filter-sort-bar-btn-group {
   display: flex;

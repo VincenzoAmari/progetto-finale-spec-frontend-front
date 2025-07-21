@@ -1,7 +1,12 @@
 import React from "react";
 import "./FilterSortBar.css";
-import { FaBalanceScale } from "react-icons/fa";
-import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import {
+  FaBalanceScale,
+  FaEuroSign,
+  FaArrowUp,
+  FaArrowDown,
+  FaChevronDown,
+} from "react-icons/fa";
 import GameList from "./GameList";
 
 const FilterSortBar = ({
@@ -20,6 +25,7 @@ const FilterSortBar = ({
   const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
   const [sortAlphaAsc, setSortAlphaAsc] = React.useState(true);
   const [fetchedGames, setFetchedGames] = React.useState([]);
+  const [selectOpen, setSelectOpen] = React.useState(false);
 
   // Funzione per ordinare i giochi
   const getSortedGames = () => {
@@ -80,11 +86,24 @@ const FilterSortBar = ({
     <React.Fragment>
       <div className="filter-sort-bar-sticky">
         <div className="filter-sort-bar-flex">
-          <div className="filter-sort-bar-select-wrapper">
+          <div
+            className="filter-sort-bar-select-wrapper"
+            style={{
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <select
               className="form-select filter-sort-bar-select"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+              onFocus={() => setSelectOpen(true)}
+              onBlur={() => setSelectOpen(false)}
+              onClick={(e) => {
+                // Se la tendina è già aperta, chiudila, altrimenti aprila
+                setSelectOpen((prev) => !prev);
+              }}
             >
               <option value="">Tutti i generi</option>
               {categories.map((cat) => (
@@ -93,6 +112,9 @@ const FilterSortBar = ({
                 </option>
               ))}
             </select>
+            <span className={`select-chevron${selectOpen ? " open" : ""}`}>
+              <FaChevronDown />
+            </span>
           </div>
           <div className="filter-sort-bar-btn-group">
             {/* Bottone toggle prezzo */}

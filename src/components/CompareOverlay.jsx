@@ -5,8 +5,6 @@ const CompareOverlay = ({ compared, onClose }) => {
   const [gamesData, setGamesData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
-  const [sortAlphaAsc, setSortAlphaAsc] = React.useState(false);
 
   React.useEffect(() => {
     const fetchGamesData = async () => {
@@ -53,45 +51,15 @@ const CompareOverlay = ({ compared, onClose }) => {
     fetchGamesData();
   }, [compared]);
 
-  // Funzione per ordinare i giochi
-  const getSortedGames = () => {
-    let arr = [...gamesData];
-    if (sortAlphaAsc) {
-      arr.sort((a, b) => {
-        if (!a.title || !b.title) return 0;
-        return a.title.localeCompare(b.title);
-      });
-    } else {
-      arr.sort((a, b) => {
-        const priceA =
-          typeof a.price === "number" ? a.price : parseFloat(a.price);
-        const priceB =
-          typeof b.price === "number" ? b.price : parseFloat(b.price);
-        if (isNaN(priceA) && isNaN(priceB)) return 0;
-        if (isNaN(priceA)) return 1;
-        if (isNaN(priceB)) return -1;
-        return sortPriceAsc ? priceA - priceB : priceB - priceA;
-      });
-    }
-    return arr;
-  };
-
-  // Gestione click sort
-  const handleSortPriceClick = () => {
-    setSortPriceAsc((prev) => !prev);
-    setSortAlphaAsc(false);
-  };
-  const handleSortAlphaClick = () => {
-    setSortAlphaAsc((prev) => !prev);
-    setSortPriceAsc(false);
-  };
+  // Funzione per restituire i giochi nell'ordine originale
+  const getSortedGames = () => [...gamesData];
 
   if (!compared || compared.length === 0) {
     return (
       <div className="compare-overlay">
         <div className="compare-content">
           <button className="close-compare" onClick={onClose}>
-            ×
+            &#215;
           </button>
           <div className="compare-cards compare-cards-empty">
             <span className="compare-empty-main">
@@ -105,30 +73,29 @@ const CompareOverlay = ({ compared, onClose }) => {
       </div>
     );
   }
-  if (compared.length !== 2 && compared.length !== 3) return null;
-  if (loading) {
-    return (
-      <div className="compare-overlay">
-        <div className="compare-content">
-          <button className="close-compare" onClick={onClose}>
-            ×
-          </button>
-          <div className="compare-cards compare-cards-loading">
-            <span>Caricamento...</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
   if (error) {
     return (
       <div className="compare-overlay">
         <div className="compare-content">
           <button className="close-compare" onClick={onClose}>
-            ×
+            &#215;
           </button>
           <div className="compare-cards compare-cards-error">
             <span>Errore: {error}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (loading) {
+    return (
+      <div className="compare-overlay">
+        <div className="compare-content">
+          <button className="close-compare" onClick={onClose}>
+            &#215;
+          </button>
+          <div className="compare-cards compare-cards-loading">
+            <span>Caricamento...</span>
           </div>
         </div>
       </div>
@@ -149,22 +116,8 @@ const CompareOverlay = ({ compared, onClose }) => {
             marginBottom: "18px",
             justifyContent: "center",
           }}
-        >
-          <button
-            className={`sort-btn${sortPriceAsc ? " active" : ""}`}
-            onClick={handleSortPriceClick}
-            title={sortPriceAsc ? "Prezzo crescente" : "Prezzo decrescente"}
-          >
-            {sortPriceAsc ? "Prezzo ↑" : "Prezzo ↓"}
-          </button>
-          <button
-            className={`sort-btn${sortAlphaAsc ? " active" : ""}`}
-            onClick={handleSortAlphaClick}
-            title={sortAlphaAsc ? "Ordina A-Z" : "Ordina Z-A"}
-          >
-            {sortAlphaAsc ? "A → Z" : "Z → A"}
-          </button>
-        </div>
+        ></div>
+        {/* Bottoni sort rimossi per richiesta */}
         {gamesData.length === 3 ? (
           <>
             <div className="compare-cards compare-cards-row">

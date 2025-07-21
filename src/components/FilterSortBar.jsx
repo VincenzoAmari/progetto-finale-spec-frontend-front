@@ -27,10 +27,13 @@ const FilterSortBar = ({
   const [fetchedGames, setFetchedGames] = React.useState([]);
   const [selectOpen, setSelectOpen] = React.useState(false);
 
-  // Funzione per ordinare i giochi
+  // Funzione per filtrare e ordinare i giochi
   const getSortedGames = () => {
     if (!fetchedGames || fetchedGames.length === 0) return [];
-    let arr = [...fetchedGames];
+    // Filtra per categoria se selezionata
+    let arr = category
+      ? fetchedGames.filter((g) => g.category === category)
+      : [...fetchedGames];
     if (sortAlphaAsc) {
       arr.sort((a, b) => {
         if (!a.title || !b.title) return 0;
@@ -100,7 +103,7 @@ const FilterSortBar = ({
               onChange={(e) => setCategory(e.target.value)}
               onFocus={() => setSelectOpen(true)}
               onBlur={() => setSelectOpen(false)}
-              onClick={(e) => {
+              onClick={() => {
                 // Se la tendina è già aperta, chiudila, altrimenti aprila
                 setSelectOpen((prev) => !prev);
               }}

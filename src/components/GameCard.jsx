@@ -94,7 +94,7 @@ const GameCard = React.memo(
               }}
             />
             <div className="game-info-title game-info-title-center">
-              <h2>{gameData.title}</h2>
+              <h2 className="game-title-h2">{gameData.title}</h2>
             </div>
             <FavoriteStar
               active={isFavorite}

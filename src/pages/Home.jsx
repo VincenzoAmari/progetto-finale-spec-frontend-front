@@ -71,6 +71,8 @@ const Home = () => {
   // Array di giochi selezionati per confronto (oggetti completi)
   const compared = compareGames.map((id) => games.find((g) => g.id === id));
 
+
+
   // Render della pagina Home
   return (
     <>
@@ -85,12 +87,12 @@ const Home = () => {
         <div style={{ flex: 1, minWidth: 0 }}>
           {/* Barra filtri e lista giochi */}
           <FilterSortBar
+            games={filteredGames}
             category={category}
             setCategory={setCategory}
             categories={categories}
             tripleCompare={tripleCompare}
             setTripleCompare={setTripleCompare}
-            games={filteredGames}
             isFavorite={isFavorite}
             addFavorite={addFavorite}
             removeFavorite={removeFavorite}

@@ -11,6 +11,7 @@ import GameList from "./GameList";
 
 // FilterSortBar: barra per filtrare, ordinare e attivare la modalità confronto giochi
 const FilterSortBar = ({
+  games, // Array di giochi già filtrati da Home
   category, // Categoria selezionata
   setCategory, // Funzione per cambiare categoria
   categories, // Array di tutte le categorie
@@ -25,15 +26,14 @@ const FilterSortBar = ({
 }) => {
   const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
   const [sortAlphaAsc, setSortAlphaAsc] = React.useState(true);
-  const [fetchedGames, setFetchedGames] = React.useState([]);
   const [selectOpen, setSelectOpen] = React.useState(false);
 
-  // Filtra e ordina i giochi in base a categoria e sort selezionato
+  // Ordina i giochi in base a sort selezionato
   const getSortedGames = () => {
-    if (!fetchedGames || fetchedGames.length === 0) return [];
+    if (!games || games.length === 0) return [];
     let arr = category
-      ? fetchedGames.filter((g) => g.category === category)
-      : [...fetchedGames];
+      ? games.filter((g) => g.category === category)
+      : [...games];
     if (sortAlphaAsc) {
       arr.sort((a, b) => {
         if (!a.title || !b.title) return 0;
@@ -62,28 +62,7 @@ const FilterSortBar = ({
     setSortPriceAsc(false);
   };
 
-  // Effetto: carica i giochi dal backend e unisce dettagli
-  React.useEffect(() => {
-    fetch("http://localhost:3001/games")
-      .then((res) => res.json())
-      .then(async (data) => {
-        const gamesWithDetails = await Promise.all(
-          data.map(async (g) => {
-            try {
-              const res = await fetch(`http://localhost:3001/games/${g.id}`);
-              if (!res.ok) return g;
-              const detail = await res.json();
-
-              return { ...g, ...detail.game };
-            } catch {
-              return g;
-            }
-          })
-        );
-        setFetchedGames(gamesWithDetails);
-      })
-      .catch(() => {});
-  }, []);
+  // (Rimosso fetch interno: i giochi arrivano già filtrati da Home)
 
   // Render della barra filtri e della lista giochi
   return (

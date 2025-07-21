@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
 import GameDetail from "./pages/GameDetail";
 import FavoritesPage from "./pages/FavoritesPage";
 import { GlobalProvider } from "./context/GlobalContext";

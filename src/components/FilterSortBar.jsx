@@ -1,6 +1,7 @@
 import React from "react";
 import "./FilterSortBar.css";
 import { FaBalanceScale } from "react-icons/fa";
+import { FaEuroSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import GameList from "./GameList";
 
 const FilterSortBar = ({
@@ -96,19 +97,46 @@ const FilterSortBar = ({
           <div className="filter-sort-bar-btn-group">
             {/* Bottone toggle prezzo */}
             <button
-              className={`sort-btn${sortPriceAsc ? "" : " active"}`}
+              className={`sort-btn sort-btn-price${
+                sortPriceAsc ? "" : " active"
+              }`}
               onClick={handleSortPriceClick}
               title={sortPriceAsc ? "Prezzo crescente" : "Prezzo decrescente"}
             >
-              {sortPriceAsc ? "Prezzo ↑" : "Prezzo ↓"}
+              <FaEuroSign
+                style={{
+                  fontSize: 18,
+                  marginRight: 4,
+                  color: sortPriceAsc ? "#00ffe7" : "#00ffe7",
+                }}
+              />
+              {sortPriceAsc ? (
+                <FaArrowUp style={{ fontSize: 16, color: "#00ffe7" }} />
+              ) : (
+                <FaArrowDown style={{ fontSize: 16, color: "#00ffe7" }} />
+              )}
             </button>
             {/* Bottone sort alfabetico */}
             <button
-              className={`sort-btn${sortAlphaAsc ? " active" : ""}`}
+              className={`sort-btn sort-btn-alpha${
+                sortAlphaAsc ? " active" : ""
+              }`}
               onClick={handleSortAlphaClick}
               title={sortAlphaAsc ? "Ordina A-Z" : "Ordina Z-A"}
             >
-              {sortAlphaAsc ? "A → Z" : "Z → A"}
+              {sortAlphaAsc ? (
+                <span
+                  style={{ color: "#00ffe7", fontWeight: 700, fontSize: 17 }}
+                >
+                  A<span style={{ fontSize: 13 }}>z</span>
+                </span>
+              ) : (
+                <span
+                  style={{ color: "#00ffe7", fontWeight: 700, fontSize: 17 }}
+                >
+                  Z<span style={{ fontSize: 13 }}>a</span>
+                </span>
+              )}
             </button>
             {/* Triple compare */}
             <button

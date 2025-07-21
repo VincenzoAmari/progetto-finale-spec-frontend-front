@@ -128,8 +128,36 @@
   box-sizing: border-box;
 }
 .sort-btn.active {
-  background: #00ffe7;
-  color: #181c24;
+  /* Nessun background, solo bordo e colore testo neon */
+  background: #23272f;
+  color: #00ffe7;
+  border: 2px solid #00ffe7;
+}
+.sort-btn {
+  background: #23272f;
+  color: #00ffe7;
+  border: 2px solid #00ffe7;
+  border-radius: 8px;
+  padding: 0 8px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+  width: 72px;
+  min-width: 72px;
+  max-width: 72px;
+  box-sizing: border-box;
+  outline: none;
+}
+.sort-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #00ffe799;
 }
 .form-select.filter-sort-bar-item {
   height: 44px;

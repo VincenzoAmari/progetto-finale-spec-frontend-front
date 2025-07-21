@@ -72,10 +72,13 @@
   font-weight: 700;
   margin-left: 4px;
 }
-.triple-btn.active {
-  background: #ffd700;
-  color: #181c24;
-  border: 1.5px solid #ffd700;
+.filter-sort-bar-btn-group .sort-btn.triple-btn.active {
+  background: #00ffe7 !important;
+  color: #181c24 !important;
+  border: 2px solid #00ffe7 !important;
+  box-shadow: 0 0 8px #00ffe7, 0 0 16px #00ffe7cc !important;
+  transition: box-shadow 0.2s, background 0.2s;
+  z-index: 1;
 }
 /* FilterSortBar styles */
 .filter-sort-bar-sticky {

@@ -18,7 +18,7 @@ const FilterSortBar = ({
   navigate,
 }) => {
   const [sortPriceAsc, setSortPriceAsc] = React.useState(true);
-  const [sortAlphaAsc, setSortAlphaAsc] = React.useState(false);
+  const [sortAlphaAsc, setSortAlphaAsc] = React.useState(true);
   const [fetchedGames, setFetchedGames] = React.useState([]);
 
   // Funzione per ordinare i giochi

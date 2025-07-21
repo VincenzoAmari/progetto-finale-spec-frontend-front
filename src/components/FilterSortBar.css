@@ -15,15 +15,11 @@
 .select-chevron {
   position: relative;
   right: 30px;
-  transform: rotate(0deg);
+  transform: none;
   color: #00ffe7;
   font-size: 1.2em;
   pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.4, 2, 0.6, 1);
   z-index: 2;
-}
-.select-chevron.open {
-  transform: translateY(-50%) rotate(180deg);
 }
 .filter-sort-bar-select {
   padding-right: 38px;

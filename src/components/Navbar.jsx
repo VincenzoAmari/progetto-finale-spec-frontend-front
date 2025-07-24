@@ -14,15 +14,20 @@ const Navbar = ({ search, setSearch }) => {
   const [localSearch, setLocalSearch] = useState(search || "");
   useEffect(() => {
     setLocalSearch(search || "");
+    console.log("[Navbar] search prop:", search);
   }, [search]);
   useEffect(() => {
     if (typeof setSearch === "function") {
       const handler = setTimeout(() => {
         setSearch(localSearch);
+        console.log("[Navbar] setSearch(localSearch):", localSearch);
       }, 400);
       return () => clearTimeout(handler);
     }
   }, [localSearch, setSearch]);
+  useEffect(() => {
+    console.log("[Navbar] localSearch state:", localSearch);
+  }, [localSearch]);
 
   // Render della navbar
   return (

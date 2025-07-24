@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
-import GameList from "../components/GameList";
 import FavoritesSidebar from "../components/FavoritesSidebar";
 import FilterSortBar from "../components/FilterSortBar";
 import CompareOverlay from "../components/CompareOverlay";
@@ -19,11 +18,27 @@ const Home = () => {
   const navigate = useNavigate();
   const { isFavorite, addFavorite, removeFavorite } = useGlobal();
 
-  // Carica la lista giochi dal backend
+  // Carica la lista giochi dal backend, includendo il prezzo
   useEffect(() => {
     fetch("http://localhost:3001/games")
       .then((res) => res.json())
-      .then((data) => setGames(data))
+      .then(async (data) => {
+        // Per ogni gioco, recupera i dettagli (incluso il prezzo)
+        const gamesWithDetails = await Promise.all(
+          data.map(async (g) => {
+            try {
+              const res = await fetch(`http://localhost:3001/games/${g.id}`);
+              if (!res.ok) return g;
+              const detail = await res.json();
+              // Unisci i dettagli (incluso il prezzo) all'oggetto gioco
+              return { ...g, ...detail.game };
+            } catch {
+              return g;
+            }
+          })
+        );
+        setGames(gamesWithDetails);
+      })
       .catch((err) => console.error("Errore nel fetch:", err));
   }, []);
 
@@ -31,9 +46,14 @@ const Home = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
+      console.log("[Home] setDebouncedSearch:", search);
     }, 500);
     return () => clearTimeout(handler);
   }, [search]);
+  useEffect(() => {
+    console.log("[Home] search:", search);
+    console.log("[Home] debouncedSearch:", debouncedSearch);
+  }, [search, debouncedSearch]);
 
   // Calcola le categorie disponibili
   const categories = useMemo(() => {
@@ -43,11 +63,13 @@ const Home = () => {
 
   // Filtra i giochi in base a ricerca e categoria
   const filteredGames = useMemo(() => {
-    return games.filter(
+    const result = games.filter(
       (game) =>
         game.title.toLowerCase().includes(debouncedSearch.toLowerCase()) &&
         (category === "" || game.category === category)
     );
+    console.log("[Home] filteredGames:", result);
+    return result;
   }, [games, debouncedSearch, category]);
 
   // Gestisce il toggle dei giochi da confrontare

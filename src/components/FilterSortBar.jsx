@@ -45,6 +45,8 @@ const FilterSortBar = ({
           typeof a.price === "number" ? a.price : parseFloat(a.price);
         const priceB =
           typeof b.price === "number" ? b.price : parseFloat(b.price);
+        if (isNaN(priceA)) return 1;
+        if (isNaN(priceB)) return -1;
         return sortPriceAsc ? priceA - priceB : priceB - priceA;
       });
     }

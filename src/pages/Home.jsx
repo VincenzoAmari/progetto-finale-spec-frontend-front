@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
@@ -42,18 +42,19 @@ const Home = () => {
       .catch((err) => console.error("Errore nel fetch:", err));
   }, []);
 
-  // Debounce per la ricerca
-  useEffect(() => {
+  // Funzione debounce memorizzata con useCallback
+  const debounceSearch = useCallback((value) => {
     const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-      console.log("[Home] setDebouncedSearch:", search);
+      setDebouncedSearch(value);
     }, 500);
     return () => clearTimeout(handler);
-  }, [search]);
+  }, []);
+
   useEffect(() => {
-    console.log("[Home] search:", search);
-    console.log("[Home] debouncedSearch:", debouncedSearch);
-  }, [search, debouncedSearch]);
+    const cleanup = debounceSearch(search);
+    return cleanup;
+  }, [search, debounceSearch]);
+  useEffect(() => {}, [search, debouncedSearch]);
 
   // Calcola le categorie disponibili
   const categories = useMemo(() => {

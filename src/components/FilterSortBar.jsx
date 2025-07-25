@@ -64,8 +64,6 @@ const FilterSortBar = ({
     setSortPriceAsc(false);
   };
 
-  // (Rimosso fetch interno: i giochi arrivano già filtrati da Home)
-
   // Render della barra filtri e della lista giochi
   return (
     <React.Fragment>

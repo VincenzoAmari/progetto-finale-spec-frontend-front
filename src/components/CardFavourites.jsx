@@ -1,17 +1,17 @@
 // Import principali
-import React from "react";
+import { useState, useEffect } from "react";
 import "./CardFavourites.css";
 import FavoriteStar from "./FavoriteStar";
 
 // CardFavourites: mostra i dettagli di un gioco preferito
 const CardFavourites = ({ game, onRemove }) => {
   // Stato locale per i dati del gioco, caricamento ed errori
-  const [gameData, setGameData] = React.useState(game);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(null);
+  const [gameData, setGameData] = useState(game);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Effetto: aggiorna i dati del gioco se mancano alcune info
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchGameData = async () => {
       if (game && game.id && (!game.title || !game.price)) {
         setLoading(true);

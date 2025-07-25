@@ -1,4 +1,4 @@
-import React from "react";
+// ...nessun import React necessario...
 import "./FavoriteStar.css";
 
 // FavoriteStar: icona stella per aggiungere/rimuovere un gioco dai preferiti

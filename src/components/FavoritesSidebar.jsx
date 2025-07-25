@@ -1,15 +1,43 @@
 import FavoriteStar from "./FavoriteStar";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
+import { useMemo, useCallback } from "react";
 import "./FavoritesSidebar.css";
-
 // Barra laterale che mostra i giochi preferiti
-const FavoritesSidebar = ({ games }) => {
+
+function FavoritesSidebar({ games }) {
   const navigate = useNavigate();
   const { isFavorite, removeFavorite } = useGlobal();
-  // Filtra solo i giochi che sono nei preferiti
-  const favoriteGames = games.filter((g) => isFavorite(Number(g.id)));
+
+  // Memoizza la lista dei giochi preferiti
+  const favoriteGames = useMemo(
+    () => games.filter((g) => isFavorite(Number(g.id))),
+    [games, isFavorite]
+  );
+
+  // Handler memoizzati
+  const handleNavigate = useCallback(
+    (id) => {
+      navigate(`/games/${id}`);
+    },
+    [navigate]
+  );
+
+  const handleRemove = useCallback(
+    (e, id) => {
+      e.stopPropagation();
+      removeFavorite(Number(id));
+    },
+    [removeFavorite]
+  );
+
+  const handleStarClick = useCallback(
+    (id) => {
+      removeFavorite(id);
+    },
+    [removeFavorite]
+  );
+
   // Render della sidebar preferiti
   return (
     <aside className="favorites-sidebar">
@@ -29,7 +57,7 @@ const FavoritesSidebar = ({ games }) => {
             <li
               key={game.id}
               className="favorites-sidebar-item"
-              onClick={() => navigate(`/games/${game.id}`)}
+              onClick={() => handleNavigate(game.id)}
             >
               <div className="favorites-sidebar-item-info">
                 <div className="favorites-sidebar-item-title">{game.title}</div>
@@ -41,14 +69,11 @@ const FavoritesSidebar = ({ games }) => {
               <button
                 title="Rimuovi dai preferiti"
                 className="favorites-sidebar-remove"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFavorite(Number(game.id));
-                }}
+                onClick={(e) => handleRemove(e, game.id)}
               >
                 <FavoriteStar
                   active={isFavorite(game.id)}
-                  onClick={() => removeFavorite(game.id)}
+                  onClick={() => handleStarClick(game.id)}
                 />
               </button>
             </li>
@@ -57,6 +82,6 @@ const FavoritesSidebar = ({ games }) => {
       )}
     </aside>
   );
-};
+}
 
 export default FavoritesSidebar;

@@ -1,5 +1,5 @@
 import "./FavoritesPage.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useGlobal } from "../context/GlobalContext";
 import CardFavourites from "../components/CardFavourites";

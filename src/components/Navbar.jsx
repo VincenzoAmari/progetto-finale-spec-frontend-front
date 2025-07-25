@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "./Navbar.css";
@@ -14,20 +14,16 @@ const Navbar = ({ search, setSearch }) => {
   const [localSearch, setLocalSearch] = useState(search || "");
   useEffect(() => {
     setLocalSearch(search || "");
-    console.log("[Navbar] search prop:", search);
   }, [search]);
   useEffect(() => {
     if (typeof setSearch === "function") {
       const handler = setTimeout(() => {
         setSearch(localSearch);
-        console.log("[Navbar] setSearch(localSearch):", localSearch);
       }, 400);
       return () => clearTimeout(handler);
     }
   }, [localSearch, setSearch]);
-  useEffect(() => {
-    console.log("[Navbar] localSearch state:", localSearch);
-  }, [localSearch]);
+  useEffect(() => {}, [localSearch]);
 
   // Render della navbar
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
@@ -39,7 +39,7 @@ const Home = () => {
         );
         setGames(gamesWithDetails);
       })
-      .catch((err) => console.error("Errore nel fetch:", err));
+      .catch(() => {});
   }, []);
 
   // Funzione debounce memorizzata con useCallback
@@ -69,7 +69,7 @@ const Home = () => {
         game.title.toLowerCase().includes(debouncedSearch.toLowerCase()) &&
         (category === "" || game.category === category)
     );
-    console.log("[Home] filteredGames:", result);
+
     return result;
   }, [games, debouncedSearch, category]);
 
@@ -84,7 +84,7 @@ const Home = () => {
   };
 
   // Quando si attiva/disattiva la modalità tripla, azzera la selezione confronto
-  React.useEffect(() => {
+  useEffect(() => {
     setCompareGames([]);
   }, [tripleCompare]);
 

@@ -1,11 +1,10 @@
-import React, { useCallback } from "react";
-import { FaBalanceScale } from "react-icons/fa";
+import { memo, useState, useEffect, useCallback } from "react";
 import "./GameCard.css";
 import FavoriteStar from "./FavoriteStar";
 import CompareScale from "./CompareScale";
 
 // GameCard: mostra le informazioni di un singolo gioco, con funzioni per preferiti e confronto
-const GameCard = React.memo(
+const GameCard = memo(
   ({
     game, // Oggetto gioco da visualizzare
     isFavorite, // Booleano: se il gioco è nei preferiti
@@ -15,12 +14,12 @@ const GameCard = React.memo(
     onCompareToggle, // Funzione per toggle confronto
   }) => {
     // Stato locale per i dati del gioco (può essere aggiornato da fetch)
-    const [gameData, setGameData] = React.useState(game);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
+    const [gameData, setGameData] = useState(game);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     // Effettua fetch dei dati completi del gioco se mancano titolo o prezzo
-    React.useEffect(() => {
+    useEffect(() => {
       const fetchGameData = async () => {
         if (game && game.id && (!game.title || !game.price)) {
           setLoading(true);

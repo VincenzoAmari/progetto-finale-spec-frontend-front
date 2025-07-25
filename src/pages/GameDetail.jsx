@@ -1,12 +1,12 @@
 import FavoriteStar from "../components/FavoriteStar";
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useGlobal } from "../context/GlobalContext";
 import Navbar from "../components/Navbar";
 import "./GameDetail.css";
 
 // Pagina dettaglio gioco: mostra tutte le info di un singolo gioco
-const GameDetail = () => {
+function GameDetail() {
   const { id } = useParams();
   const [game, setGame] = useState(null); // Dati gioco
   const [loading, setLoading] = useState(true); // Stato caricamento
@@ -16,24 +16,39 @@ const GameDetail = () => {
 
   // Carica i dati del gioco dal backend
   useEffect(() => {
-    setLoading(true);
-    fetch(`http://localhost:3001/games/${id}`)
-      .then((res) => {
+    const fetchGame = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`http://localhost:3001/games/${id}`);
         if (!res.ok) throw new Error("Gioco non trovato");
-        return res.json();
-      })
-      .then((data) => {
+        const data = await res.json();
         setGame(data.game);
-        setLoading(false);
         if (!loggedRef.current) {
           loggedRef.current = true;
         }
-      })
-      .catch((err) => {
+        setError(null);
+      } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchGame();
   }, [id]);
+
+  // Gestisce il click sulla stella preferito
+  const handleFavorite = useCallback(
+    (e) => {
+      e.stopPropagation();
+      const numId = Number(game?.id);
+      if (isFavorite(numId)) {
+        removeFavorite(numId);
+      } else {
+        addFavorite(numId);
+      }
+    },
+    [game, isFavorite, addFavorite, removeFavorite]
+  );
 
   // Stato di caricamento
   if (loading)
@@ -52,17 +67,6 @@ const GameDetail = () => {
       </>
     );
   if (!game) return null;
-
-  // Gestisce il click sulla stella preferito
-  const handleFavorite = (e) => {
-    e.stopPropagation();
-    const numId = Number(game.id);
-    if (isFavorite(numId)) {
-      removeFavorite(numId);
-    } else {
-      addFavorite(numId);
-    }
-  };
 
   // Render della pagina dettaglio gioco
   return (
@@ -137,6 +141,6 @@ const GameDetail = () => {
       </div>
     </>
   );
-};
+}
 
 export default GameDetail;

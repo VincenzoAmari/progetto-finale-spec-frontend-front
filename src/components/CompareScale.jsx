@@ -1,4 +1,4 @@
-import React from "react";
+// ...nessun import React necessario...
 import { FaBalanceScale } from "react-icons/fa";
 import "./CompareScale.css";
 

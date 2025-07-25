@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import "./CompareOverlay.css";
 import "../types";
 
@@ -9,12 +9,12 @@ import "../types";
 const CompareOverlay = ({ compared, onClose }) => {
   // Stato locale per i dati dei giochi da confrontare
   /** @type {[Game[], Function]} */
-  const [gamesData, setGamesData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const [gamesData, setGamesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Effettua fetch dei dati completi dei giochi selezionati per il confronto
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchGamesData = async () => {
       if (!compared || compared.length === 0) {
         setGamesData([]);

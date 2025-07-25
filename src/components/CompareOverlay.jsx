@@ -1,9 +1,14 @@
 import React from "react";
 import "./CompareOverlay.css";
+import "../types";
 
-// CompareOverlay: mostra un overlay per confrontare più giochi selezionati
+/**
+ * Overlay per confrontare più giochi selezionati
+ * @param {{ compared: Game[], onClose: Function }} props
+ */
 const CompareOverlay = ({ compared, onClose }) => {
   // Stato locale per i dati dei giochi da confrontare
+  /** @type {[Game[], Function]} */
   const [gamesData, setGamesData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);

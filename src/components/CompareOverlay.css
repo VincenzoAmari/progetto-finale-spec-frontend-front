@@ -1,3 +1,13 @@
+/* Immagine gioco: sempre fissa anche sotto i 700px */
+.game-detail-image {
+  width: 320px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #00ffe7;
+  background: #222;
+  box-shadow: 0 2px 12px #00ffe733;
+}
 /* Scrollbar neon style */
 .compare-content::-webkit-scrollbar {
   width: 8px;
@@ -55,6 +65,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 .compare-cards {
   display: flex;
@@ -148,6 +160,7 @@
     font-size: 0.9rem;
     padding: 2px 0;
   }
+  /* NON modificare .game-detail-image qui, resta fissa come sopra */
 }
 @media (max-width: 480px) {
   .compare-content {
